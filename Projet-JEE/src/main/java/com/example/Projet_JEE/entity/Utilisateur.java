@@ -22,8 +22,7 @@ public class Utilisateur {
     @Column(nullable = false)
     private String motDePasse;
     @Column(nullable = false)
-    private int age;    @Column(nullable = false)
-    private String genre;
+    private int age;
     @Column(nullable = false)
-    private String pathologie;
+    private String genre;
 }

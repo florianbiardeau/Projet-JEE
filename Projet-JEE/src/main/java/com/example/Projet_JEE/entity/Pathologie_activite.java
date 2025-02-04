@@ -1,23 +1,23 @@
 package com.example.Projet_JEE.entity;
 
+import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.EmbeddedId;
 
 @Entity
-public class Evaluation_activite {
+public class Pathologie_activite {
 
     @EmbeddedId
-    private Evaluation_activite_Id idEvaluationActivite;
+    private Pathologie_activite_Id idPathologieActivite;
     @ManyToOne
     @JoinColumn(
-            name = "idUtilisateur",
-            referencedColumnName = "idUtilisateur",
+            name = "idPathologie",
+            referencedColumnName = "idPathologie",
             nullable = false,
             insertable = false,
             updatable = false)
-    private Utilisateur utilisateur;
+    private Pathologie pathologie;
 
     @ManyToOne
     @JoinColumn(
@@ -27,6 +27,4 @@ public class Evaluation_activite {
             insertable = false,
             updatable = false)
     private Activite activite;
-
-    private int note;
 }
