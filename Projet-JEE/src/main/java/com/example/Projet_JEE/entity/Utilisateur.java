@@ -1,28 +1,28 @@
 package com.example.Projet_JEE.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
+@Table(name = "utilisateur")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Utilisateur {
 
     @Id
-    /*@SequenceGenerator(
-            name = "UtilisateurSequence",
-            sequenceName = "UtilisateurSequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "UtilisateurSequence"
-    )
-    */
-    private int idUtilisateur;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long idUtilisateur;
+
     @Column(nullable = false, unique = true)
     private String nomUtilisateur;
+
     @Column(nullable = false)
     private String motDePasse;
-    @Column(nullable = false)
-    private int age;
-    @Column(nullable = false)
+
+    private Integer age;
     private String genre;
+
+    // Ajoute d'autres colonnes si nécessaire
 }

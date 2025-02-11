@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentification</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+        form { margin-bottom: 20px; }
+        input { display: block; margin: 10px auto; padding: 8px; }
+        button { padding: 10px; cursor: pointer; }
+        #message { margin-top: 10px; font-weight: bold; }
+    </style>
+</head>
+<body>
+<h2>Inscription</h2>
+<form id="register-form">
+    <input type="text" id="reg-nom" placeholder="Nom d'utilisateur" required>
+    <input type="password" id="reg-mdp" placeholder="Mot de passe" required>
+    <input type="number" id="reg-age" placeholder="Âge" required>
+    <input type="text" id="reg-genre" placeholder="Genre" required>
+    <button type="submit">S'inscrire</button>
+</form>
+
+<h2>Connexion</h2>
+<form id="login-form">
+    <input type="text" id="login-nom" placeholder="Nom d'utilisateur" required>
+    <input type="password" id="login-mdp" placeholder="Mot de passe" required>
+    <button type="submit">Se connecter</button>
+</form>
+
+<button id="logout" style="display:none;">Se déconnecter</button>
+<p id="message"></p>
+
+<script>
+    document.getElementById('register-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const nomUtilisateur = document.getElementById('reg-nom').value;
+        const motDePasse = document.getElementById('reg-mdp').value;
+        const age = document.getElementById('reg-age').value;
+        const genre = document.getElementById('reg-genre').value;
+
+        const response = await fetch('http://localhost:8080/api/utilisateurs/inscription', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nomUtilisateur, motDePasse, age, genre })
+        });
+
+        const message = await response.text();
+        document.getElementById('message').innerText = message;
+    });
+
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const nomUtilisateur = document.getElementById('login-nom').value;
+        const motDePasse = document.getElementById('login-mdp').value;
+
+        const response = await fetch('http://localhost:8080/api/utilisateurs/connexion', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nomUtilisateur, motDePasse })
+        });
+
+        const message = await response.text();
+        document.getElementById('message').innerText = message;
+        if (response.ok) {
+            document.getElementById('logout').style.display = 'block';
+        }
+    });
+
+    document.getElementById('logout').addEventListener('click', async () => {
+        const response = await fetch('http://localhost:8080/api/utilisateurs/deconnexion', { method: 'POST' });
+        const message = await response.text();
+        document.getElementById('message').innerText = message;
+        document.getElementById('logout').style.display = 'none';
+    });
+</script>
+</body>
+</html>
