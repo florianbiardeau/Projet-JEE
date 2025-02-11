@@ -10,6 +10,7 @@ public class Evaluation_activite {
 
     @EmbeddedId
     private Evaluation_activite_Id idEvaluationActivite;
+
     @ManyToOne
     @JoinColumn(
             name = "idUtilisateur",

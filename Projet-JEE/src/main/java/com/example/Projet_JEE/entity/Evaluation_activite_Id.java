@@ -5,6 +5,6 @@ import jakarta.persistence.Embeddable;
 @Embeddable
 public class Evaluation_activite_Id {
 
-    private int idUtilisateur;
+    private Long idUtilisateur;
     private int idActivite;
 }

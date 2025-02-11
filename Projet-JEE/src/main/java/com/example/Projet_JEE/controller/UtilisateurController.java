@@ -1,5 +1,7 @@
 package com.example.Projet_JEE.controller;
 
+import com.example.Projet_JEE.dto.ConnexionDTO;
+import com.example.Projet_JEE.dto.UtilisateurDTO;
 import com.example.Projet_JEE.entity.Utilisateur;
 import com.example.Projet_JEE.service.UtilisateurService;
 import org.springframework.http.ResponseEntity;
@@ -17,12 +19,14 @@ public class UtilisateurController {
     }
 
     @PostMapping("/inscription")
-    public ResponseEntity<?> inscription(@RequestParam String nomUtilisateur,
-                                         @RequestParam String motDePasse,
-                                         @RequestParam Integer age,
-                                         @RequestParam String genre) {
+    public ResponseEntity<?> inscription(@RequestBody UtilisateurDTO utilisateurDTO) {
         try {
-            Utilisateur utilisateur = utilisateurService.creerCompte(nomUtilisateur, motDePasse, age, genre);
+            Utilisateur utilisateur = utilisateurService.creerCompte(
+                    utilisateurDTO.getNomUtilisateur(),
+                    utilisateurDTO.getMotDePasse(),
+                    utilisateurDTO.getAge(),
+                    utilisateurDTO.getGenre()
+            );
             return ResponseEntity.ok(utilisateur);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -30,13 +34,21 @@ public class UtilisateurController {
     }
 
     @PostMapping("/connexion")
-    public ResponseEntity<?> connexion(@RequestParam String nomUtilisateur, @RequestParam String motDePasse) {
-        Optional<Utilisateur> utilisateur = utilisateurService.authentifier(nomUtilisateur, motDePasse);
+    public ResponseEntity<?> connexion(@RequestBody ConnexionDTO connexionDTO) {
+        Optional<Utilisateur> utilisateur = utilisateurService.authentifier(
+                connexionDTO.getNomUtilisateur(),
+                connexionDTO.getMotDePasse()
+        );
 
         if (utilisateur.isPresent()) {
             return ResponseEntity.ok("Connexion réussie !");
         } else {
             return ResponseEntity.status(401).body("Nom d'utilisateur ou mot de passe incorrect");
         }
+    }
+
+    @PostMapping("/deconnexion")
+    public ResponseEntity<?> deconnexion() {
+        return ResponseEntity.ok("Déconnexion réussie !");
     }
 }
