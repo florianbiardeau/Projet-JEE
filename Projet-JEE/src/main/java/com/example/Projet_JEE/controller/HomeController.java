@@ -1,16 +1,27 @@
 package com.example.Projet_JEE.controller;
 
+import com.example.Projet_JEE.dto.UtilisateurDTO; // Import ajouté
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.security.Principal;
 
 @Controller
 public class HomeController {
 
-    @GetMapping("/accueil")
-    public String accueil(Model model) {
-        
-        model.addAttribute("message", "Bienvenue  !");
-        return "accueil"; // correspondra à accueil.html dans resources/templates
+    @GetMapping("/login")
+    public String login(@RequestParam(value = "error", required = false) String error,
+                        Model model) {
+        if (error != null) {
+            model.addAttribute("error", "Identifiants invalides");
+        }
+        return "login";
+    }
+
+    @GetMapping("/")
+    public String home(Principal principal) {
+        return principal != null ? "redirect:/dashboard" : "home";
     }
 }

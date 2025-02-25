@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <title>Tableau de bord</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<div class="container">
+  <h1>Bienvenue sur votre tableau de bord</h1>
+
+  <p>Vous êtes connecté en tant que :
+    <span sec:authentication="name"></span>
+  </p>
+
+  <div class="actions">
+    <form th:action="@{/logout}" method="post">
+      <button type="submit" class="btn btn-danger">Déconnexion</button>
+    </form>
+  </div>
+</div>
+</body>
+</html>
