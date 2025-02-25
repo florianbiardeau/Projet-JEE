@@ -9,7 +9,8 @@ public class HomeController {
 
     @GetMapping("/accueil")
     public String accueil(Model model) {
-        model.addAttribute("message", "Bienvenue sur notre site !");
+        
+        model.addAttribute("message", "Bienvenue  !");
         return "accueil"; // correspondra à accueil.html dans resources/templates
     }
 }
