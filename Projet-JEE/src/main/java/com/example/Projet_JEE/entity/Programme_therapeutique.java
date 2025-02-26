@@ -57,4 +57,5 @@ public class Programme_therapeutique {
     public void setActivites(List<Activite> activites) {
         this.activites = activites;
     }
+
 }

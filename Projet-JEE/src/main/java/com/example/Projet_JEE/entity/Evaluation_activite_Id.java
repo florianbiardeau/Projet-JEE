@@ -8,4 +8,5 @@ public class Evaluation_activite_Id {
 
     private Long idUtilisateur;
     private Long idActivite;
+
 }

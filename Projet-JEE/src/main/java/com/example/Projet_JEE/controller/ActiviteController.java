@@ -21,4 +21,5 @@ public class ActiviteController {
         List<Activite> activites = activiteService.rechercherActivites(nom);
         return ResponseEntity.ok(activites);
     }
+
 }

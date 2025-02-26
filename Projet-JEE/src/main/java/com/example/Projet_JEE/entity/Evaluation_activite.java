@@ -32,4 +32,5 @@ public class Evaluation_activite {
      */
 
     private int note;
+
 }

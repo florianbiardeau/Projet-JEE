@@ -48,4 +48,5 @@ public class Programme_therapeutique_activite {
     public void setIdActivite(Long idActivite) {
         this.idActivite = idActivite;
     }
+
 }

@@ -34,4 +34,5 @@ public class ActiviteService {
         List<Long> idsPathologie = pathologieUtilisateurRepository.findPathologieByIdUtilisateur(idUtilisateur);
         return pathologieActiviteRepository.findActivitesByIdsPathologie(idsPathologie);
     }
+
 }

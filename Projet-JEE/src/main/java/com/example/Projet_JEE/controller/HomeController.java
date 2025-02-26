@@ -24,4 +24,5 @@ public class HomeController {
     public String home(Principal principal) {
         return principal != null ? "redirect:/dashboard" : "home";
     }
+
 }

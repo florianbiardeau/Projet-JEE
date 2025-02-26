@@ -13,4 +13,5 @@ import java.util.List;
 public interface Pathologie_activiteRepository extends JpaRepository<Pathologie_activite, Integer> {
     @Query("SELECT DISTINCT a FROM Activite a JOIN Pathologie_activite pa ON a.idActivite = pa.idActivite WHERE pa.idPathologie IN :idsPathologie")
     List<Activite> findActivitesByIdsPathologie(@Param("idsPathologie") List<Long> idsPathologie);
+
 }

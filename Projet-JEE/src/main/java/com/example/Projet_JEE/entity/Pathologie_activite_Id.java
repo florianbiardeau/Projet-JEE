@@ -6,4 +6,5 @@ package com.example.Projet_JEE.entity;
 public class Pathologie_activite_Id {
     private Long idPathologie;
     private Long idActivite;
+
 }

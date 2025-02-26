@@ -49,4 +49,5 @@ public class Pathologie_utilisateur {
             updatable = false)
     private Utilisateur utilisateur;
      */
+
 }

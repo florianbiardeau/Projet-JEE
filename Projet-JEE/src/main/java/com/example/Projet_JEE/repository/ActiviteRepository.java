@@ -8,4 +8,5 @@ import java.util.List;
 @Repository
 public interface ActiviteRepository extends JpaRepository<Activite, Integer> {
     List<Activite> findByNomActiviteContainingIgnoreCase(String nomActivite);
+
 }

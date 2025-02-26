@@ -58,4 +58,5 @@ public class EnregistrementController {
         redirectAttributes.addFlashAttribute("success", "Compte créé avec succès !");
         return "redirect:/login";
     }
+
 }

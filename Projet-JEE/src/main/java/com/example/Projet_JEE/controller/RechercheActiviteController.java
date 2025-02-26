@@ -11,4 +11,5 @@ public class RechercheActiviteController {
     public String index(Model model) {
         return "rechercheActivite"; // correspondra à index.html dans resources/templates
     }
+
 }

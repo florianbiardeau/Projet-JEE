@@ -14,4 +14,5 @@ import java.util.Optional;
 public interface Pathologie_utilisateurRepository extends JpaRepository<Pathologie_utilisateur, Integer> {
     @Query("SELECT pu.idPathologie FROM Pathologie_utilisateur pu WHERE pu.idUtilisateur = :idUtilisateur")
     List<Long> findPathologieByIdUtilisateur(@Param("idUtilisateur") Long idUtilisateur);
+
 }

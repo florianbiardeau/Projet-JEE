@@ -94,4 +94,5 @@ public class UtilisateurController {
         model.addAttribute("utilisateurDTO", new UtilisateurDTO());
         return "register";
     }
+
 }

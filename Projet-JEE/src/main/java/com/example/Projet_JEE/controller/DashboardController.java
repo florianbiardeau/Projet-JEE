@@ -55,4 +55,5 @@ public class DashboardController {
 
         return "dashboard"; // Correspond au template dashboard.html
     }
+
 }

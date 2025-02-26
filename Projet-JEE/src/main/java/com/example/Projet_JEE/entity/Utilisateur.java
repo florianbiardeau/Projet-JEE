@@ -81,4 +81,5 @@ public class Utilisateur implements UserDetails { // Implémentez UserDetails
     public boolean isEnabled() {
         return true;
     }
+
 }

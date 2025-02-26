@@ -7,4 +7,5 @@ public class Programme_therapeutique_activite_Id {
 
     private Long idProgrammeTherapeutique;
     private Long idActivite;
+
 }

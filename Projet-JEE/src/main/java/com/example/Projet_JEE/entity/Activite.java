@@ -138,4 +138,5 @@ public class Activite {
     public void setNumeroDeRue(int numeroDeRue) {
         this.numeroDeRue = numeroDeRue;
     }
+
 }

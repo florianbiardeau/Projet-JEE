@@ -59,4 +59,5 @@ public class ConfigSecurite {
     public SpringSecurityDialect springSecurityDialect() {
         return new SpringSecurityDialect();
     }
+
 }

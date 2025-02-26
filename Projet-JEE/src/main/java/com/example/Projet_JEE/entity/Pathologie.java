@@ -12,4 +12,5 @@ public class Pathologie {
 
     @Column(nullable = false, unique=true)
     private String nom;
+
 }

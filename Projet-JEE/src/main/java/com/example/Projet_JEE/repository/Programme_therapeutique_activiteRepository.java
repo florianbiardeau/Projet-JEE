@@ -6,5 +6,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface Programme_therapeutique_activiteRepository extends JpaRepository<Programme_therapeutique_activite, Integer> {
-
 }

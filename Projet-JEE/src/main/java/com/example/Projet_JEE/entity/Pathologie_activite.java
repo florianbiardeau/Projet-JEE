@@ -33,4 +33,5 @@ public class Pathologie_activite {
             updatable = false)
     private Activite activite;
     */
+
 }

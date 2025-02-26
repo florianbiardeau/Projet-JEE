@@ -11,4 +11,5 @@ public class SelectionActiviteController {
     public String index(Model model) {
         return "selectionActivite"; // correspondra à index.html dans resources/templates
     }
+
 }

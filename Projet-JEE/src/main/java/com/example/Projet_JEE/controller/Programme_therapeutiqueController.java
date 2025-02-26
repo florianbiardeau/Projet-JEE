@@ -16,4 +16,5 @@ public class Programme_therapeutiqueController {
         programmeTherapeutiqueService.ajouterActiviteAuProgramme(idProgramme, idActivite);
         return ResponseEntity.ok().build();
     }
+
 }
