@@ -29,4 +29,32 @@ public class Programme_therapeutique {
             joinColumns = @JoinColumn(name = "id_programme_therapeutique"),
             inverseJoinColumns = @JoinColumn(name = "id_activite"))
     private List<Activite> activites;
+
+    public int getIdProgrammeTherapeutique() {
+        return idProgrammeTherapeutique;
+    }
+
+    public String getNomProgrammeTherapeutique() {
+        return nomProgrammeTherapeutique;
+    }
+
+    public List<Activite> getActivites() {
+        return activites;
+    }
+
+    public Utilisateur getUtilisateur() {
+        return utilisateur;
+    }
+
+    public void setNomProgrammeTherapeutique(String nomProgrammeTherapeutique) {
+        this.nomProgrammeTherapeutique = nomProgrammeTherapeutique;
+    }
+
+    public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
+    }
+
+    public void setActivites(List<Activite> activites) {
+        this.activites = activites;
+    }
 }

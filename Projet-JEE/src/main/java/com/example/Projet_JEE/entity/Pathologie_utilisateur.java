@@ -6,6 +6,22 @@ import jakarta.persistence.*;
 @IdClass(Pathologie_utilisateur_Id.class)
 public class Pathologie_utilisateur {
 
+    public Long getIdPathologie() {
+        return idPathologie;
+    }
+
+    public void setIdPathologie(Long idPathologie) {
+        this.idPathologie = idPathologie;
+    }
+
+    public Long getIdUtilisateur() {
+        return idUtilisateur;
+    }
+
+    public void setIdUtilisateur(Long idUtilisateur) {
+        this.idUtilisateur = idUtilisateur;
+    }
+
     @Id
     private Long idPathologie;
 

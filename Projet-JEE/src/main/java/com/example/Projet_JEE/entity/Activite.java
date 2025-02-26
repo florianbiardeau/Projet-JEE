@@ -43,7 +43,6 @@ public class Activite {
     @Column(name = "numero_de_rue", nullable = false)
     private int numeroDeRue;
 
-
     public int getIdActivite() {
         return idActivite;
     }
@@ -68,14 +67,6 @@ public class Activite {
         this.description = description;
     }
 
-    public String getPathologiePrevention() {
-        return pathologiePrevention;
-    }
-
-    public void setPathologiePrevention(String pathologiePrevention) {
-        this.pathologiePrevention = pathologiePrevention;
-    }
-
     public String getDiscipline() {
         return discipline;
     }
@@ -84,12 +75,12 @@ public class Activite {
         this.discipline = discipline;
     }
 
-    public String getUrl() {
-        return url;
+    public String getPathologiePrevention() {
+        return pathologiePrevention;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setPathologiePrevention(String pathologiePrevention) {
+        this.pathologiePrevention = pathologiePrevention;
     }
 
     public int getDuree() {
@@ -98,6 +89,14 @@ public class Activite {
 
     public void setDuree(int duree) {
         this.duree = duree;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public String getPays() {

@@ -6,7 +6,9 @@ import com.example.Projet_JEE.entity.Programme_therapeutique_activite;
 import com.example.Projet_JEE.repository.ActiviteRepository;
 import com.example.Projet_JEE.repository.Programme_therapeutiqueRepository;
 import com.example.Projet_JEE.repository.Programme_therapeutique_activiteRepository;
+import com.example.Projet_JEE.repository.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -19,7 +21,15 @@ public class Programme_therapeutiqueService {
 
     private ActiviteRepository activiteRepository;
 
-    private Programme_therapeutiqueRepository programme_therapeutiqueRepository;
+    private PasswordEncoder passwordEncoder;
+
+    public Programme_therapeutiqueService(Programme_therapeutiqueRepository programmeTherapeutiqueRepository, Programme_therapeutique_activiteRepository programmeTherapeutiqueActiviteRepository, ActiviteRepository activiteRepository,
+                              PasswordEncoder passwordEncoder) {
+        this.programmeTherapeutiqueRepository = programmeTherapeutiqueRepository;
+        this.programmeTherapeutiqueActiviteRepository = programmeTherapeutiqueActiviteRepository;
+        this.activiteRepository = activiteRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     public void ajouterActiviteAuProgramme(Long idProgramme, Long idActivite) {
         /*

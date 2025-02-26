@@ -61,4 +61,10 @@ public class UtilisateurService implements UserDetailsService {
 
         return utilisateurOpt.filter(u -> passwordEncoder.matches(mot_de_passe, u.getPassword()));
     }
+
+    public Long idParNomUtilisateur(String nomUtilisateur) {
+        Utilisateur utilisateur = utilisateurRepository.findByNomUtilisateur(nomUtilisateur).orElse(null);
+
+        return utilisateur.getIdUtilisateur();
+    }
 }
