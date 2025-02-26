@@ -32,33 +32,33 @@ public class UtilisateurService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException(username));
 
         return new org.springframework.security.core.userdetails.User(
-                utilisateur.getNomUtilisateur(),
-                utilisateur.getMotDePasse(), // Doit être le hash BCrypt
+                utilisateur.getUsername(),
+                utilisateur.getPassword(), // Doit être le hash BCrypt
                 Collections.emptyList()
         );
     }
 
-    public boolean nomUtilisateurExists(String nomUtilisateur) {
-        return utilisateurRepository.findByNomUtilisateur(nomUtilisateur).isPresent();
+    public boolean nomUtilisateurExists(String nom_utilisateur) {
+        return utilisateurRepository.findByNomUtilisateur(nom_utilisateur).isPresent();
     }
 
     public Utilisateur creerUtilisateur(Utilisateur utilisateur) {
-        utilisateur.setMotDePasse(passwordEncoder.encode(utilisateur.getMotDePasse()));
+        utilisateur.setPassword(passwordEncoder.encode(utilisateur.getPassword()));
         return utilisateurRepository.save(utilisateur);
     }
 
-    public Optional<Utilisateur> authentifier(String nomUtilisateur, String motDePasse) {
-        Optional<Utilisateur> utilisateurOpt = utilisateurRepository.findByNomUtilisateur(nomUtilisateur);
+    public Optional<Utilisateur> authentifier(String nom_utilisateur, String mot_de_passe) {
+        Optional<Utilisateur> utilisateurOpt = utilisateurRepository.findByNomUtilisateur(nom_utilisateur);
 
         if(utilisateurOpt.isPresent()) {
             Utilisateur utilisateur = utilisateurOpt.get();
-            boolean match = passwordEncoder.matches(motDePasse, utilisateur.getMotDePasse());
+            boolean match = passwordEncoder.matches(mot_de_passe, utilisateur.getPassword());
             System.out.println("Mot de passe match : " + match);
-            System.out.println("Hash stocké : " + utilisateur.getMotDePasse());
+            System.out.println("Hash stocké : " + utilisateur.getPassword());
         } else {
-            System.out.println("Utilisateur non trouvé : " + nomUtilisateur);
+            System.out.println("Utilisateur non trouvé : " + nom_utilisateur);
         }
 
-        return utilisateurOpt.filter(u -> passwordEncoder.matches(motDePasse, u.getMotDePasse()));
+        return utilisateurOpt.filter(u -> passwordEncoder.matches(mot_de_passe, u.getPassword()));
     }
 }

@@ -1,36 +1,48 @@
 package com.example.Projet_JEE.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Activite {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_activite")
     private int idActivite;
-    @Column(nullable = false, unique = true)
+
+    @Column(name = "nom_activite", nullable = false, unique = true)
     private String nomActivite;
+
     @Column(nullable = false)
     private String description;
+
     @Column(nullable = false)
     private String discipline;
-    @Column(nullable = false)
-    private String Pathologie_prevention;
+
+    @Column(name = "pathologie_prevention", nullable = false)
+    private String pathologiePrevention;
+
     @Column(nullable = false)
     private int duree;
+
     @Column(nullable = false, unique = true)
     private String url;
+
     @Column(nullable = false)
     private String pays;
+
     @Column(nullable = false)
     private String ville;
-    @Column(nullable = false)
+
+    @Column(name = "code_postal", nullable = false)
     private String codePostal;
+
     @Column(nullable = false)
     private String rue;
-    @Column(nullable = false)
+
+    @Column(name = "numero_de_rue", nullable = false)
     private int numeroDeRue;
+
 
     public int getIdActivite() {
         return idActivite;
@@ -56,12 +68,12 @@ public class Activite {
         this.description = description;
     }
 
-    public String getPathologie_prevention() {
-        return Pathologie_prevention;
+    public String getPathologiePrevention() {
+        return pathologiePrevention;
     }
 
-    public void setPathologie_prevention(String pathologie_prevention) {
-        Pathologie_prevention = pathologie_prevention;
+    public void setPathologiePrevention(String pathologiePrevention) {
+        this.pathologiePrevention = pathologiePrevention;
     }
 
     public String getDiscipline() {

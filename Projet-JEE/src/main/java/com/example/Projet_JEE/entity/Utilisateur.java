@@ -19,20 +19,29 @@ public class Utilisateur implements UserDetails { // Implémentez UserDetails
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_utilisateur")
     private Long idUtilisateur;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "nom_utilisateur", nullable = false, unique = true)
     private String nomUtilisateur;
 
-    @Column(nullable = false)
+    @Column(name = "mot_de_passe", nullable = false)
     private String motDePasse;
 
     private Integer age;
+
     private String genre;
+
+    @OneToMany(mappedBy = "utilisateur")
+    private List<Programme_therapeutique> programmesTherapeutiques;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.emptyList();
+    }
+
+    public Long getIdUtilisateur() {
+        return idUtilisateur;
     }
 
     @Override
@@ -40,9 +49,17 @@ public class Utilisateur implements UserDetails { // Implémentez UserDetails
         return motDePasse;
     }
 
+    public void setPassword(String motDePasse) {
+        this.motDePasse = motDePasse;
+    }
+
     @Override
     public String getUsername() {
         return nomUtilisateur;
+    }
+
+    public void setUsername(String nomUtilisateur) {
+        this.nomUtilisateur = nomUtilisateur;
     }
 
     @Override

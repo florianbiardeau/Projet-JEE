@@ -9,11 +9,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/programmes-therapeutiques")
 public class Programme_therapeutiqueController {
 
-    @Autowired
     private Programme_therapeutiqueService programmeTherapeutiqueService;
 
     @PostMapping("/{idProgramme}/activites")
-    public ResponseEntity<Void> ajouterActiviteAuProgramme(@PathVariable int idProgramme, @RequestBody int idActivite) {
+    public ResponseEntity<Void> ajouterActiviteAuProgramme(@PathVariable Long idProgramme, @RequestBody Long idActivite) {
         programmeTherapeutiqueService.ajouterActiviteAuProgramme(idProgramme, idActivite);
         return ResponseEntity.ok().build();
     }

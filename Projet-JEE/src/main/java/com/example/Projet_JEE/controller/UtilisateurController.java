@@ -34,8 +34,8 @@ public class UtilisateurController {
 
             // Création de l'utilisateur
             Utilisateur utilisateur = new Utilisateur();
-            utilisateur.setNomUtilisateur(utilisateurDTO.getNomUtilisateur());
-            utilisateur.setMotDePasse(utilisateurDTO.getMotDePasse());
+            utilisateur.setUsername(utilisateurDTO.getNomUtilisateur());
+            utilisateur.setPassword(utilisateurDTO.getMotDePasse());
             utilisateur.setAge(utilisateurDTO.getAge());
             utilisateur.setGenre(utilisateurDTO.getGenre());
 
@@ -58,7 +58,7 @@ public class UtilisateurController {
         if (utilisateur.isPresent()) {
             // Crée une authentification Spring Security
             UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
-                    utilisateur.get().getNomUtilisateur(),
+                    utilisateur.get().getUsername(),
                     null,
                     // Ajoutez les rôles/authorities si nécessaire
                     Collections.emptyList()

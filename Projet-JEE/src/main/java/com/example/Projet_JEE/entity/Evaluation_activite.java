@@ -1,20 +1,21 @@
 package com.example.Projet_JEE.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.*;
 
 @Entity
+@IdClass(Evaluation_activite_Id.class)
 public class Evaluation_activite {
 
-    @EmbeddedId
-    private Evaluation_activite_Id idEvaluationActivite;
+    @Id
+    private Long idUtilisateur;
 
-    @ManyToOne
+    @Id
+    private Long idActivite;
+
+    /*@ManyToOne
     @JoinColumn(
-            name = "idUtilisateur",
-            referencedColumnName = "idUtilisateur",
+            name = "id_utilisateur",
+            referencedColumnName = "id_utilisateur",
             nullable = false,
             insertable = false,
             updatable = false)
@@ -22,12 +23,13 @@ public class Evaluation_activite {
 
     @ManyToOne
     @JoinColumn(
-            name = "idActivite",
-            referencedColumnName = "idActivite",
+            name = "id_activite",
+            referencedColumnName = "id_activite",
             nullable = false,
             insertable = false,
             updatable = false)
     private Activite activite;
+     */
 
     private int note;
 }

@@ -1,9 +1,9 @@
 package com.example.Projet_JEE.entity;
 
-import jakarta.persistence.Embeddable;
+//import jakarta.persistence.Embeddable;
 
-@Embeddable
+//@Embeddable
 public class Pathologie_activite_Id {
-    private int idPathologie;
-    private int idActivite;
+    private Long idPathologie;
+    private Long idActivite;
 }

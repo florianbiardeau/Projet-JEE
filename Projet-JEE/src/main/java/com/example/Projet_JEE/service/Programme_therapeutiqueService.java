@@ -8,20 +8,21 @@ import com.example.Projet_JEE.repository.Programme_therapeutiqueRepository;
 import com.example.Projet_JEE.repository.Programme_therapeutique_activiteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 @Service
 public class Programme_therapeutiqueService {
 
-    @Autowired
     private Programme_therapeutiqueRepository programmeTherapeutiqueRepository;
 
-    @Autowired
     private Programme_therapeutique_activiteRepository programmeTherapeutiqueActiviteRepository;
 
-    @Autowired
     private ActiviteRepository activiteRepository;
 
-    public void ajouterActiviteAuProgramme(int idProgramme, int idActivite) {
+    private Programme_therapeutiqueRepository programme_therapeutiqueRepository;
+
+    public void ajouterActiviteAuProgramme(Long idProgramme, Long idActivite) {
+        /*
         // Trouver le programme thérapeutique par ID
         Programme_therapeutique programme = programmeTherapeutiqueRepository.findById(idProgramme)
                 .orElseThrow(() -> new RuntimeException("Programme non trouvé"));
@@ -33,9 +34,21 @@ public class Programme_therapeutiqueService {
         // Créer une nouvelle relation entre le programme et l'activité
         Programme_therapeutique_activite programmeTherapeutiqueActivite = new Programme_therapeutique_activite();
         programmeTherapeutiqueActivite.setIdProgrammeTherapeutique(programme);
-        programmeTherapeutiqueActivite.setActivite(activite);
+        programmeTherapeutiqueActivite.setIdActivite(activite);
 
         // Sauvegarder la relation dans la base de données
         programmeTherapeutiqueActiviteRepository.save(programmeTherapeutiqueActivite);
+        */
+
+        Programme_therapeutique_activite programmeTherapeutiqueActivite = new Programme_therapeutique_activite();
+        programmeTherapeutiqueActivite.setIdProgrammeTherapeutique(idProgramme);
+        programmeTherapeutiqueActivite.setIdActivite(idActivite);
+
+        // Sauvegarder la relation dans la base de données
+        programmeTherapeutiqueActiviteRepository.save(programmeTherapeutiqueActivite);
+    }
+
+    public List<Programme_therapeutique> obtenirProgrammesParUtilisateur(Long idUtilisateur) {
+        return programmeTherapeutiqueRepository.findByUtilisateurIdUtilisateur(idUtilisateur);
     }
 }

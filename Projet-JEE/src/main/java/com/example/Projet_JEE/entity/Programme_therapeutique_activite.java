@@ -1,55 +1,51 @@
 package com.example.Projet_JEE.entity;
 
-import jakarta.persistence.Embeddable;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.*;
 
 @Entity
+@IdClass(Programme_therapeutique_activite_Id.class)
 public class Programme_therapeutique_activite {
 
-    @EmbeddedId
-    private Programme_therapeutique_activite_Id idProgrammeTherapeutiqueActivite;
-    @ManyToOne
+    @Id
+    @Column(name = "id_programme_therapeutique")
+    private Long idProgrammeTherapeutique;
+
+    @Id
+    @Column(name = "id_activite")
+    private Long idActivite;
+
+    /*@ManyToOne
     @JoinColumn(
-            name = "idProgrammeTherapeutique",
-            referencedColumnName = "idProgrammeTherapeutique",
+            name = "id_programme_therapeutique",
+            referencedColumnName = "id_programme_therapeutique",
             nullable = false,
             insertable = false,
             updatable = false)
-    private Programme_therapeutique idProgrammeTherapeutique;
+    private Programme_therapeutique programmeTherapeutique;
 
     @ManyToOne
     @JoinColumn(
-            name = "idActivite",
-            referencedColumnName = "idActivite",
+            name = "id_activite",
+            referencedColumnName = "id_activite",
             nullable = false,
             insertable = false,
             updatable = false)
     private Activite activite;
+    */
 
-    public Programme_therapeutique_activite_Id getIdProgrammeTherapeutiqueActivite() {
-        return idProgrammeTherapeutiqueActivite;
-    }
-
-    public void setIdProgrammeTherapeutiqueActivite(Programme_therapeutique_activite_Id idProgrammeTherapeutiqueActivite) {
-        this.idProgrammeTherapeutiqueActivite = idProgrammeTherapeutiqueActivite;
-    }
-
-    public Programme_therapeutique getIdProgrammeTherapeutique() {
+    public Long getIdProgrammeTherapeutique() {
         return idProgrammeTherapeutique;
     }
 
-    public void setIdProgrammeTherapeutique(Programme_therapeutique idProgrammeTherapeutique) {
+    public void setIdProgrammeTherapeutique(Long idProgrammeTherapeutique) {
         this.idProgrammeTherapeutique = idProgrammeTherapeutique;
     }
 
-    public Activite getActivite() {
-        return activite;
+    public Long getIdActivite() {
+        return idActivite;
     }
 
-    public void setActivite(Activite activite) {
-        this.activite = activite;
+    public void setIdActivite(Long idActivite) {
+        this.idActivite = idActivite;
     }
 }

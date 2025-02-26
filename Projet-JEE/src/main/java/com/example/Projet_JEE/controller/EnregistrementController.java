@@ -42,13 +42,13 @@ public class EnregistrementController {
         }
 
         Utilisateur utilisateur = new Utilisateur();
-        utilisateur.setNomUtilisateur(nomUtilisateur);
-        utilisateur.setMotDePasse(motDePasse); // Serra haché dans le service
+        utilisateur.setUsername(nomUtilisateur);
+        utilisateur.setPassword(motDePasse); // Serra haché dans le service
         utilisateur.setAge(age);
         utilisateur.setGenre(genre);
 
         // Ajouter ce log pour vérification
-        System.out.println("Avant sauvegarde - Mot de passe: " + utilisateur.getMotDePasse());
+        System.out.println("Avant sauvegarde - Mot de passe: " + utilisateur.getPassword());
 
         utilisateurService.creerUtilisateur(utilisateur);
 

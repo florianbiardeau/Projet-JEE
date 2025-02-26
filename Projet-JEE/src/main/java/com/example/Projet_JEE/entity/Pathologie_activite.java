@@ -1,13 +1,18 @@
 package com.example.Projet_JEE.entity;
 
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
 @Entity
+@IdClass(Pathologie_activite_Id.class)
 public class Pathologie_activite {
 
+    @Id
+    private Long idPathologie;
+
+    @Id
+    private Long idActivite;
+
+    /*
     @EmbeddedId
     private Pathologie_activite_Id idPathologieActivite;
     @ManyToOne
@@ -27,4 +32,5 @@ public class Pathologie_activite {
             insertable = false,
             updatable = false)
     private Activite activite;
+    */
 }
