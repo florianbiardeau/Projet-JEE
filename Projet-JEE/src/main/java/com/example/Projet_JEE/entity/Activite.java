@@ -8,7 +8,7 @@ public class Activite {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_activite")
-    private int idActivite;
+    private Long idActivite;
 
     @Column(name = "nom_activite", nullable = false, unique = true)
     private String nomActivite;
@@ -43,11 +43,11 @@ public class Activite {
     @Column(name = "numero_de_rue", nullable = false)
     private int numeroDeRue;
 
-    public int getIdActivite() {
+    public Long getIdActivite() {
         return idActivite;
     }
 
-    public void setIdActivite(int idActivite) {
+    public void setIdActivite(Long idActivite) {
         this.idActivite = idActivite;
     }
 

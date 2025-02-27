@@ -2,6 +2,8 @@ package com.example.Projet_JEE.entity;
 
 
 import jakarta.persistence.*;
+import lombok.Setter;
+
 import java.util.List;
 
 
@@ -11,11 +13,13 @@ public class Programme_therapeutique {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_programme_therapeutique")
-    private int idProgrammeTherapeutique;
+    private Long idProgrammeTherapeutique;
 
+    @Setter
     @Column(name = "nom_programme_therapeutique", nullable = false)
     private String nomProgrammeTherapeutique;
 
+    @Setter
     @ManyToOne
     @JoinColumn(
             name = "id_utilisateur",
@@ -23,6 +27,7 @@ public class Programme_therapeutique {
             nullable = false)
     private Utilisateur utilisateur;
 
+    @Setter
     @ManyToMany
     @JoinTable(
             name = "programme_therapeutique_activite",
@@ -30,7 +35,7 @@ public class Programme_therapeutique {
             inverseJoinColumns = @JoinColumn(name = "id_activite"))
     private List<Activite> activites;
 
-    public int getIdProgrammeTherapeutique() {
+    public Long getIdProgrammeTherapeutique() {
         return idProgrammeTherapeutique;
     }
 
@@ -44,18 +49,6 @@ public class Programme_therapeutique {
 
     public Utilisateur getUtilisateur() {
         return utilisateur;
-    }
-
-    public void setNomProgrammeTherapeutique(String nomProgrammeTherapeutique) {
-        this.nomProgrammeTherapeutique = nomProgrammeTherapeutique;
-    }
-
-    public void setUtilisateur(Utilisateur utilisateur) {
-        this.utilisateur = utilisateur;
-    }
-
-    public void setActivites(List<Activite> activites) {
-        this.activites = activites;
     }
 
 }

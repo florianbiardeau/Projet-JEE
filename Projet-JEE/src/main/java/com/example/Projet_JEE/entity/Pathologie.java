@@ -8,7 +8,7 @@ public class Pathologie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_pathologie")
-    private int idPathologie;
+    private Long idPathologie;
 
     @Column(nullable = false, unique=true)
     private String nom;
