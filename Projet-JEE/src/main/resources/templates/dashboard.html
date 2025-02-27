@@ -22,15 +22,22 @@
         <!-- Itération sur les activités du programme -->
         <li th:each="activite : ${programme.activites}" th:text="${activite.nomActivite}">Nom de l'activité</li>
       </ul>
-      <form th:action="@{/programme/{id}(id=${programme.idProgrammeTherapeutique})}" method="get">
-        <button type="submit" class="btn btn-primary">Voir le programme</button>
-      </form>
+      <div class="program-actions">
+        <!-- Bouton Voir le programme -->
+        <form th:action="@{/programme/{id}(id=${programme.idProgrammeTherapeutique})}" method="get">
+          <button type="submit" class="btn btn-primary">Voir le programme</button>
+        </form>
+        <!-- Bouton Supprimer avec une pop-up -->
+        <button type="button" class="btn btn-danger" th:attr="data-id=${programme.idProgrammeTherapeutique}" onclick="confirmDelete(this)">
+          Supprimer
+        </button>
+      </div>
     </div>
 
-    <div class="program-card add-activity-card">
-      <form th:action="@{/ajouter-activite}" method="get">
+    <div class="program-card add-programme-card">
+      <form th:action="@{/ajouter-programme}" method="get">
         <button type="button" class="btn btn-add" onclick="toggleForm()">
-          + Ajouter une activité
+          + Ajouter un programme
         </button>
       </form>
     </div>
@@ -49,6 +56,19 @@
         </div>
       </form>
     </div>
+
+    <!-- Pop-up de confirmation -->
+    <div id="delete-confirmation" class="popup">
+      <div class="popup-content">
+        <p>Êtes-vous sûr de vouloir supprimer ce programme ?</p>
+        <form id="delete-form" th:action="@{/supprimer-programme}" method="post">
+          <input type="hidden" id="programme-id" name="idProgrammeTherapeutique">
+          <button type="submit" class="btn btn-danger">Oui, supprimer</button>
+          <button type="button" class="btn btn-secondary" onclick="closePopup()">Annuler</button>
+        </form>
+      </div>
+    </div>
+
 
   </div>
 
@@ -82,6 +102,16 @@
   function toggleForm() {
     var form = document.getElementById("add-program-form");
     form.style.display = (form.style.display === "block") ? "none" : "block";
+  }
+
+  function confirmDelete(button) {
+    var programmeId = button.getAttribute("data-id");
+    document.getElementById("programme-id").value = programmeId;
+    document.getElementById("delete-confirmation").style.display = "flex";
+  }
+
+  function closePopup() {
+    document.getElementById("delete-confirmation").style.display = "none";
   }
 </script>
 

@@ -15,5 +15,5 @@ public interface ActiviteRepository extends JpaRepository<Activite, Integer> {
             "LOWER(a.ville) LIKE LOWER(CONCAT('%', :term, '%'))")
     List<Activite> searchActivites(@Param("term") String term);
     List<Activite> findByNomActiviteContainingIgnoreCase(String nomActivite);
-
+    Activite findByIdActivite(Long idActivite);
 }

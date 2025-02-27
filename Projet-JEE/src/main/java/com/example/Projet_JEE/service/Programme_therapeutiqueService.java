@@ -10,6 +10,8 @@ import com.example.Projet_JEE.repository.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -66,9 +68,33 @@ public class Programme_therapeutiqueService {
         return programmeTherapeutiqueRepository.findByIdProgrammeTherapeutique(id);
     }
 
+    public void ajouterActivitesAuProgramme(Long programmeId, List<Long> activitesIds) {
+        Programme_therapeutique programme = programmeTherapeutiqueRepository.findByIdProgrammeTherapeutique(programmeId);
+
+        if (programme != null) {
+            List<Activite> activites = new ArrayList<>();
+            for (Long activiteId : activitesIds) {
+                activites.add(activiteRepository.findByIdActivite(activiteId));
+            }
+            programme.getActivites().addAll(activites);
+            programmeTherapeutiqueRepository.save(programme);
+        }
+    }
 
     public void ajouterProgramme(Programme_therapeutique programmeTherapeutique) {
         programmeTherapeutiqueRepository.save(programmeTherapeutique);
+    }
+
+    public void supprimerProgramme(Long idProgrammeTherapeutique) {
+        programmeTherapeutiqueRepository.deleteByIdProgrammeTherapeutique(idProgrammeTherapeutique);
+    }
+
+    public void supprimerActiviteDuProgramme(Long idProgramme, Long idActivite) {
+        programmeTherapeutiqueActiviteRepository.deleteByIdProgrammeTherapeutique(idProgramme, idActivite);
+    }
+
+    public void sauvegarder(Programme_therapeutique programme) {
+        programmeTherapeutiqueRepository.save(programme);
     }
 
 }

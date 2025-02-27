@@ -35,4 +35,8 @@ public class ActiviteService {
         return pathologieActiviteRepository.findActivitesByIdsPathologie(idsPathologie);
     }
 
+    public List<Activite> obtenirToutesLesActivites() {
+        return activiteRepository.findAll();
+    }
+
 }

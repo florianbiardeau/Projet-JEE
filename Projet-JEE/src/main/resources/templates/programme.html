@@ -6,7 +6,17 @@
 </head>
 <body>
 <div class="container">
-    <h1 th:text="${programme.nomProgrammeTherapeutique}">Nom du Programme</h1>
+    <h1 id="programmeNom" contenteditable="true"
+        onblur="modifierNomProgramme(this, this.getAttribute('data-id'))"
+        th:attr="data-id=${programme.idProgrammeTherapeutique}, onkeydown='handleEnter(event, this, this.getAttribute(\'data-id\'))'"
+        th:text="${programme.nomProgrammeTherapeutique}">
+    </h1>
+
+
+
+
+
+    <button class="btn btn-success" onclick="ouvrirPopup()">Ajouter une ou des activité(s)</button>
 
     <h2>Activités associées</h2>
     <ul>
@@ -25,11 +35,114 @@
                 <span th:text="${activite.ville}">Ville</span>,
                 <span th:text="${activite.pays}">Pays</span>
             </p>
-        </li>
 
+            <!-- Bouton pour supprimer une activité -->
+            <button class="btn btn-danger"
+                    th:attr="onclick='ouvrirPopupSuppression(' + ${activite.idActivite} + ',' + ${programme.idProgrammeTherapeutique} + ')'" >
+                Supprimer cette activité du programme
+            </button>
+
+
+        </li>
     </ul>
 
     <a href="/dashboard" class="btn btn-secondary">Retour au Tableau de Bord</a>
 </div>
+
+<div id="popup" class="popup-container">
+    <div class="popup-content">
+        <span class="close" onclick="fermerPopup()">&times;</span>
+        <h2>Ajouter des activités</h2>
+
+        <!-- Liste des activités à sélectionner -->
+        <form id="ajoutActivitesForm" th:action="@{/programme/{id}/ajouter-activites(id=${programme.idProgrammeTherapeutique})}" method="post">
+            <div th:each="activite : ${activitesDisponibles}">
+                <input type="checkbox" name="activitesSelectionnees" th:value="${activite.idActivite}">
+                <label th:text="${activite.nomActivite}">Nom de l'activité</label>
+            </div>
+            <button type="submit" class="btn btn-primary">Ajouter</button>
+        </form>
+    </div>
+</div>
+
+<!-- Popup de confirmation de suppression -->
+<div id="popupSuppression" class="popup-container" style="display: none;">
+    <div class="popup-content">
+        <span class="close" onclick="fermerPopupSuppression()">&times;</span>
+        <h2>Confirmer la suppression</h2>
+        <p>Êtes-vous sûr de vouloir supprimer cette activité du programme ?</p>
+        <form id="suppressionForm" method="post">
+            <button type="submit" class="btn btn-danger">Supprimer</button>
+            <button type="button" class="btn btn-secondary" onclick="fermerPopupSuppression()">Annuler</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function ouvrirPopup() {
+        document.getElementById("popup").style.display = "flex";
+    }
+
+    function fermerPopup() {
+        document.getElementById("popup").style.display = "none";
+    }
+
+    function ouvrirPopupSuppression(idActivite, idProgramme) {
+        console.log("Ouverture du popup de suppression");
+
+        let form = document.getElementById("suppressionForm");
+        form.setAttribute("action", "/programme/" + idProgramme + "/supprimer-activite?idActivite=" + idActivite);
+
+        document.getElementById("popupSuppression").style.display = "flex";
+
+        console.log("Popup affiché avec succès");
+    }
+
+
+    function fermerPopupSuppression() {
+        document.getElementById("popupSuppression").style.display = "none";
+    }
+
+
+    function modifierNomProgramme(element, programmeId) {
+        let nouveauNom = element.innerText.trim();
+
+        if (nouveauNom === "") {
+            alert("Le nom du programme ne peut pas être vide.");
+            return;
+        }
+
+        // Envoi AJAX pour sauvegarder la modification
+        fetch("/programme/" + programmeId + "/modifier-nom", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({nomProgramme: nouveauNom})
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Erreur lors de la mise à jour.");
+                }
+                return response.text();
+            })
+            .then(data => {
+                console.log("Nom du programme mis à jour :", data);
+            })
+            .catch(error => {
+                console.error("Erreur :", error);
+                alert("Une erreur est survenue lors de la mise à jour.");
+            });
+    }
+
+    function handleEnter(event, element, programmeId) {
+        if (event.key === "Enter") {
+            event.preventDefault();  // Empêche le retour à la ligne
+            element.blur();  // Déclenche l'événement `onblur` pour sauvegarder
+        }
+    }
+
+</script>
+
 </body>
 </html>

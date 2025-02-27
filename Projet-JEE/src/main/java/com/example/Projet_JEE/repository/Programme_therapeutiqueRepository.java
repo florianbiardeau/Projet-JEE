@@ -10,4 +10,6 @@ public interface Programme_therapeutiqueRepository extends JpaRepository<Program
     List<Programme_therapeutique> findByUtilisateurIdUtilisateur(Long idUtilisateur);
 
     Programme_therapeutique findByIdProgrammeTherapeutique(Long idUtilisateur);
+
+    Integer deleteByIdProgrammeTherapeutique(Long idProgrammeTherapeutique);
 }
