@@ -13,12 +13,6 @@
     <span sec:authentication="name"></span>
   </p>
 
-  <div class="actions">
-    <form th:action="@{/logout}" method="post">
-      <button type="submit" class="btn btn-danger">Déconnexion</button>
-    </form>
-  </div>
-
   <h2>Vos programmes</h2>
   <div class="programs-container">
     <!-- Itération sur les programmes -->
@@ -32,6 +26,30 @@
         <button type="submit" class="btn btn-primary">Voir le programme</button>
       </form>
     </div>
+
+    <div class="program-card add-activity-card">
+      <form th:action="@{/ajouter-activite}" method="get">
+        <button type="button" class="btn btn-add" onclick="toggleForm()">
+          + Ajouter une activité
+        </button>
+      </form>
+    </div>
+
+
+    <!-- Formulaire caché par défaut -->
+    <div id="add-program-form" class="form-popup">
+      <h2>Ajouter un Programme</h2>
+      <form th:action="@{/ajouter-programme}" method="post">
+        <label for="nomProgramme">Nom du Programme :</label>
+        <input type="text" id="nomProgramme" name="nomProgramme" required>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Ajouter</button>
+          <button type="button" class="btn btn-secondary" onclick="toggleForm()">Annuler</button>
+        </div>
+      </form>
+    </div>
+
   </div>
 
   <h2>Recommendations</h2>
@@ -45,11 +63,27 @@
       </form>
     </div>
   </div>
-    <div class="dashboard-actions">
-        <a th:href="@{/activites}" class="btn btn-primary">
-            <i class="fas fa-search"></i> Rechercher des activités
-        </a>
-    </div>
+  <div class="dashboard-actions">
+      <a th:href="@{/activites}" class="btn btn-primary">
+          <i class="fas fa-search"></i> Rechercher des activités
+      </a>
+  </div>
+
+  <br />
+
+  <div class="actions">
+    <form th:action="@{/logout}" method="post">
+      <button type="submit" class="btn btn-danger">Déconnexion</button>
+    </form>
+  </div>
 </div>
+
+<script>
+  function toggleForm() {
+    var form = document.getElementById("add-program-form");
+    form.style.display = (form.style.display === "block") ? "none" : "block";
+  }
+</script>
+
 </body>
 </html>

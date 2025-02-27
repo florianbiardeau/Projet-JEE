@@ -273,3 +273,73 @@ h1 {
 .btn-secondary:hover {
     background-color: #e68900;
 }
+
+/* Style du bouton "Ajouter une activité" */
+.add-activity-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f8ff; /* Bleu clair */
+    border: 2px dashed #007bff; /* Bordure pointillée pour différencier */
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+/* Style du bouton interne */
+.btn-add {
+    background-color: transparent;
+    border: none;
+    font-size: 18px;
+    font-weight: bold;
+    color: #007bff;
+    cursor: pointer;
+}
+
+/* Effet au survol */
+.add-activity-card:hover {
+    background-color: #e0f0ff; /* Bleu légèrement plus foncé */
+}
+
+/* Formulaire flottant */
+.form-popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    width: 300px;
+    text-align: center;
+    z-index: 1000;
+}
+
+/* Champ de texte */
+.form-popup input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Boutons */
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-secondary {
+    background-color: #ccc;
+    color: black;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-secondary:hover {
+    background-color: #aaa;
+}

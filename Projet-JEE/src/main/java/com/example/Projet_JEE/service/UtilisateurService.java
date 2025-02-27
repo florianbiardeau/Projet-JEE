@@ -68,4 +68,11 @@ public class UtilisateurService implements UserDetailsService {
         return utilisateur.getIdUtilisateur();
     }
 
+    public Utilisateur getUtilisateurById(Long idUtilisateur) {
+        Utilisateur utilisateur = utilisateurRepository.findById(idUtilisateur).orElse(null);
+
+        return utilisateur;
+
+    }
+
 }

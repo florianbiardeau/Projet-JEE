@@ -8,5 +8,6 @@ import java.util.List;
 @Repository
 public interface Programme_therapeutiqueRepository extends JpaRepository<Programme_therapeutique, Integer> {
     List<Programme_therapeutique> findByUtilisateurIdUtilisateur(Long idUtilisateur);
-    
+
+    Programme_therapeutique findByIdProgrammeTherapeutique(Long idUtilisateur);
 }
