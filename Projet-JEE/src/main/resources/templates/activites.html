@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Recherche d'Activités</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<div class="container">
+  <h1>Recherche d'activités</h1>
+
+  <form th:action="@{/activites}" method="get">
+    <div class="form-group">
+      <input type="text" name="search"
+             placeholder="Nom, discipline ou ville..."
+             class="form-control">
+    </div>
+    <button type="submit" class="btn btn-primary">Rechercher</button>
+  </form>
+
+  <div th:if="${activites != null}">
+    <h2 th:if="${!activites.empty}">Résultats pour "<span th:text="${search}"></span>"</h2>
+    <p th:if="${activites.empty}">Aucun résultat trouvé pour "<span th:text="${search}"></span>"</p>
+
+    <div class="activity-card" th:each="activite : ${activites}">
+      <h3 th:text="${activite.nomActivite}"></h3>
+      <p th:text="${activite.description}"></p>
+      <div class="details">
+        <div><strong>Discipline:</strong> <span th:text="${activite.discipline}"></span></div>
+        <div><strong>Localisation:</strong>
+          <span th:text="${activite.numeroDeRue + ' ' + activite.rue}"></span>,
+          <span th:text="${activite.codePostal + ' ' + activite.ville}"></span>
+        </div>
+        <div><strong>Durée:</strong> <span th:text="${activite.duree + ' minutes'}"></span></div>
+      </div>
+      <a th:href="${activite.url}" target="_blank" class="btn btn-secondary">Voir détails</a>
+    </div>
+  </div>
+
+  <a th:href="@{/dashboard}" class="btn btn-link">Retour au dashboard</a>
+</div>
+</body>
+</html>

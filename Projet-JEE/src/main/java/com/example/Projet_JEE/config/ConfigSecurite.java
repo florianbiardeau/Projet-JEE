@@ -36,6 +36,7 @@ public class ConfigSecurite {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/register**", "/login**", "/css/**").permitAll()
                         .requestMatchers("/dashboard").authenticated()
+                        .requestMatchers("/activites").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form

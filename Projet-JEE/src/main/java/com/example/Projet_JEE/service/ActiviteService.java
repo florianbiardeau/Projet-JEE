@@ -26,8 +26,8 @@ public class ActiviteService {
         this.pathologieActiviteRepository = pathologieActiviteRepository;
     }
 
-    public List<Activite> rechercherActivites(String nom) {
-        return activiteRepository.findByNomActiviteContainingIgnoreCase(nom);
+    public List<Activite> rechercherActivites(String searchTerm) {
+        return activiteRepository.searchActivites(searchTerm.toLowerCase());
     }
 
     public List<Activite> obtenirActiviteParRecommandation(Long idUtilisateur) {
