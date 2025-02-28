@@ -26,10 +26,15 @@
             <p><strong>Discipline :</strong> <span th:text="${activite.discipline}">Discipline</span></p>
             <p><strong>Description :</strong> <span th:text="${activite.description}">Description de l'activité</span></p>
             <p><strong>Durée :</strong> <span th:text="${activite.duree}">Durée</span> minutes</p>
+            <p><strong>Votre note :</strong>
+                <span th:if="${note != null && note.get(activite.idActivite) > 0}" th:text="${#numbers.formatDecimal(note.get(activite.idActivite), 1, 1)}"></span>
+                <span th:if="${note == null || note.get(activite.idActivite) == 0}">Vous n'avez pas encore noté cette activité</span>
+            </p>
             <div class="note-moyenne">
                 <strong>Note moyenne :</strong>
                 <span th:if="${notesMoyennes != null && notesMoyennes.get(activite.idActivite) > 0}"
-                      th:text="${#numbers.formatDecimal(notesMoyennes.get(activite.idActivite), 1, 1)}"></span>
+                      th:text="${#numbers.formatDecimal(notesMoyennes.get(activite.idActivite), 1, 1)}">
+                </span>
                 <span th:if="${notesMoyennes == null || notesMoyennes.get(activite.idActivite) == 0}">Non notée</span>
                 <small th:if="${nombreAvis != null && nombreAvis.get(activite.idActivite) > 0}">
                     (<span th:text="${nombreAvis.get(activite.idActivite)}"></span> avis)
@@ -154,6 +159,60 @@
             element.blur();  // Déclenche l'événement `onblur` pour sauvegarder
         }
     }
+
+    document.getElementById('ratingForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Récupération du token CSRF
+        const csrfToken = document.querySelector('meta[name="_csrf"]')?.content;
+        const csrfHeader = document.querySelector('meta[name="_csrf_header"]')?.content;
+
+        if (!csrfToken || !csrfHeader) {
+            alert('Erreur de sécurité - Rechargez la page');
+            return;
+        }
+
+        const activiteId = document.getElementById('activiteId').value;
+        const note = document.getElementById('note').value;
+
+        fetch(`/api/activites/${activiteId}/rate`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                [csrfHeader]: csrfToken // Utilisation dynamique du nom du header
+            },
+            credentials: 'include', // Important pour les cookies
+            body: JSON.stringify({ note: parseInt(note) })
+        })
+            .then(response => {
+                if (response.ok) {
+                    $('#ratingModal').modal('hide');
+                    alert('Note enregistrée !');
+                } else if (response.status === 403) {
+                    alert('Session expirée - Reconnectez-vous');
+                    window.location.href = '/login';
+                } else {
+                    throw new Error(`Erreur HTTP : ${response.status}`);
+                }
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+                alert(`Échec : ${error.message}`);
+            });
+    });
+
+    function openRatingModal(activiteId) {
+        document.getElementById('activiteId').value = activiteId;
+        $('#ratingModal').modal('show');
+    }
+
+    function openAddProgrammeModal(activityId) {
+        document.getElementById('activityId').value = activityId;
+        // Réinitialiser le select si besoin
+        document.getElementById('programmeSelect').selectedIndex = 0;
+        $('#addProgrammeModal').modal('show');
+    }
+
 
 </script>
 

@@ -3,7 +3,9 @@ package com.example.Projet_JEE.controller;
 import com.example.Projet_JEE.entity.Activite;
 import com.example.Projet_JEE.entity.Programme_therapeutique;
 
+import com.example.Projet_JEE.repository.Evaluation_activiteRepository;
 import com.example.Projet_JEE.service.ActiviteService;
+import com.example.Projet_JEE.service.EvaluationService;
 import com.example.Projet_JEE.service.Programme_therapeutiqueService;
 import com.example.Projet_JEE.service.UtilisateurService;
 import jakarta.annotation.PostConstruct;
@@ -14,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,27 +25,16 @@ public class Programme_therapeutiqueController {
 
     private Programme_therapeutiqueService programmeTherapeutiqueService;
     private ActiviteService activiteService;
+    private Evaluation_activiteRepository evaluationRepository;
+    private EvaluationService evaluationService;
 
 
-    public Programme_therapeutiqueController(Programme_therapeutiqueService programmeTherapeutiqueService, ActiviteService activiteService) {
+    public Programme_therapeutiqueController(Programme_therapeutiqueService programmeTherapeutiqueService, ActiviteService activiteService, Evaluation_activiteRepository evaluationRepository, EvaluationService evaluationService) {
         this.programmeTherapeutiqueService = programmeTherapeutiqueService;
         this.activiteService = activiteService;
+        this.evaluationRepository = evaluationRepository;
+        this.evaluationService = evaluationService;
     }
-
-    /*
-    @PostMapping("/{idProgramme}/activites")
-    public ResponseEntity<Void> ajouterActiviteAuProgramme(@PathVariable Long idProgramme, @RequestBody Long idActivite) {
-        programmeTherapeutiqueService.ajouterActiviteAuProgramme(idProgramme, idActivite);
-        return ResponseEntity.ok().build();
-    }
-
-    @PostMapping("/programme/{id}/ajouter-activites")
-    public String ajouterActivitesAuProgramme(@PathVariable("id") Long id, @RequestParam("activitesSelectionnees") List<Long> activitesIds) {
-        System.out.println("Requête reçue pour ajouter l'activité " + activitesIds + " au programme " + id);
-        programmeTherapeutiqueService.ajouterActivitesAuProgramme(id, activitesIds);
-        return "redirect:/programme/" + id; // Redirige vers la page du programme
-    }
-     */
 
     @PostMapping("/programme/{id}/ajouter-activites")
     public String ajouterActivitesAuProgramme(@PathVariable("id") Long id, @RequestParam("activitesSelectionnees") List<Long> activitesIds) {
@@ -80,6 +72,22 @@ public class Programme_therapeutiqueController {
         // Récupérer les notes mise par l'utilisateur auquel appartient le programme des activités liées au programme
         List<Integer> notesActivites = activiteService.getNotesPourActivitesEtUtilisateur(activitesIds, idUtilisateur);
 
+        // Calcul des moyennes et nombre d'avis pour CHAQUE activité
+        Map<Long, Double> notesMoyennes = new HashMap<>();
+        Map<Long, Integer> nombreAvis = new HashMap<>();
+        Map<Long, Integer> noteAvis = new HashMap<>();
+
+        //Integer note = evaluationRepository.findNoteByActiviteIdAndUtilisateurId(id, idUtilisateur);
+
+        for (Long activiteId : activitesIds) {
+            Double moyenne = evaluationRepository.findAverageNoteByActiviteId(activiteId);
+            Integer nbAvis = evaluationRepository.countByIdActivite(activiteId);
+            Integer note = evaluationRepository.findNoteByActiviteIdAndUtilisateurId(activiteId, idUtilisateur);
+            notesMoyennes.put(activiteId, moyenne != null ? moyenne : 0.0);
+            nombreAvis.put(activiteId, nbAvis != null ? nbAvis : 0);
+            noteAvis.put(activiteId, note != null ? note : 0);
+        }
+
         // Calculer la moyenne des notes des activités
         String moyenne = "Vous n'avez pas encore donné de note pour les activités de ce programme";
         if (!notesActivites.isEmpty()) {
@@ -91,10 +99,14 @@ public class Programme_therapeutiqueController {
         if (programme == null) {
             return "redirect:/dashboard"; // Redirige si l'ID est invalide
         }
-
+        System.out.println("kk");
+        System.out.println(noteAvis);
+        model.addAttribute("note", noteAvis);
         model.addAttribute("programme", programme);
         model.addAttribute("moyenneNote", moyenne);
         model.addAttribute("activitesDisponibles", activitesDisponibles);
+        model.addAttribute("notesMoyennes", notesMoyennes);
+        model.addAttribute("nombreAvis", nombreAvis);
         return "programme"; // Correspond à programme-details.html
     }
 }
