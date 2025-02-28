@@ -10,7 +10,24 @@ public class Pathologie {
     @Column(name = "id_pathologie")
     private Long idPathologie;
 
-    @Column(nullable = false, unique=true)
+    @Column(nullable = false, unique = true)
     private String nom;
 
+    // Getters et setters
+
+    public Long getIdPathologie() {
+        return idPathologie;
+    }
+
+    public void setIdPathologie(Long idPathologie) {
+        this.idPathologie = idPathologie;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
 }
