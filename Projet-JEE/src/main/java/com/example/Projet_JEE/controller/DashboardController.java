@@ -51,37 +51,49 @@ public class DashboardController {
             // Récupérer la liste des programmes depuis le service
             List<Activite> activitesRecommandees = activiteService.obtenirActiviteParRecommandation(idUtilisateur);
 
+            List<Activite> activites = activiteService.obtenirToutesLesActivites();
+
             // Ajouter la liste des programmes au modèle
             model.addAttribute("programmes", programmes);
             model.addAttribute("activitesRecommandees", activitesRecommandees);
+            model.addAttribute("activites", activites);
         }
 
         return "dashboard"; // Correspond au template dashboard.html
     }
 
     @PostMapping("/ajouter-programme")
-    public String ajouterProgramme(@RequestParam("nomProgramme") String nomProgramme) {
+    public String ajouterProgramme(@RequestParam("nomProgramme") String nomProgramme,
+                                   @RequestParam(value = "activitesSelectionnees", required = false) List<Long> activitesSelectionnees) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
         if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
             Programme_therapeutique nouveauProgramme = new Programme_therapeutique();
             nouveauProgramme.setNomProgrammeTherapeutique(nomProgramme);
 
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            String username = userDetails.getUsername(); // Nom de l'utilisateur
+            String username = userDetails.getUsername();
 
             Long idUtilisateur = utilisateurService.idParNomUtilisateur(username);
             nouveauProgramme.setUtilisateur(utilisateurService.getUtilisateurById(idUtilisateur));
 
+            // Associer les activités sélectionnées au programme
+            if (activitesSelectionnees != null && !activitesSelectionnees.isEmpty()) {
+                List<Activite> activites = activiteService.obtenirActivitesParIds(activitesSelectionnees);
+                nouveauProgramme.setActivites(activites);
+            }
+
             programmeTherapeutiqueService.ajouterProgramme(nouveauProgramme);
             return "redirect:/dashboard?idUtilisateur=" + idUtilisateur;
         }
-        return null;
+        return "redirect:/dashboard";
     }
+
 
     @GetMapping("/programme/{id}")
     public String afficherDetailsProgramme(@PathVariable("id") Long id, Model model) {
         Programme_therapeutique programme = programmeTherapeutiqueService.obtenirProgrammeParId(id);
-        List<Activite> activitesDisponibles = activiteService.obtenirToutesLesActivites();
+        List<Activite> activitesDisponibles = activiteService.obtenirToutesLesActivitesSaufDejaDansProgramme(id);
 
         if (programme == null) {
             return "redirect:/dashboard"; // Redirige si l'ID est invalide

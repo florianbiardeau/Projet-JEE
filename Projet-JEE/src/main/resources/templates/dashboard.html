@@ -44,18 +44,35 @@
 
 
     <!-- Formulaire caché par défaut -->
-    <div id="add-program-form" class="form-popup">
+    <div id="add-program-form" class="form-popup", style="width: 450px">
       <h2>Ajouter un Programme</h2>
       <form th:action="@{/ajouter-programme}" method="post">
+        <!-- Champ pour le nom du programme -->
         <label for="nomProgramme">Nom du Programme :</label>
         <input type="text" id="nomProgramme" name="nomProgramme" required>
 
+        <!-- Sélection des activités -->
+        <label>Activités disponibles :</label>
+        <div class="activities-list" style="max-height: 200px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;">
+          <div th:each="activite : ${activites}" style="display: flex; align-items: center; margin-bottom: 8px;">
+            <!-- Checkbox alignée à gauche -->
+            <input type="checkbox" th:id="${'activite-' + activite.idActivite}"
+                   th:name="activitesSelectionnees"
+                   th:value="${activite.idActivite}" style="margin-right: 8px; width: 50px">
+            <!-- Activité sur la même ligne -->
+            <label th:for="${'activite-' + activite.idActivite}" th:text="${activite.nomActivite}"></label>
+          </div>
+        </div>
+
+
+        <!-- Boutons du formulaire -->
         <div class="form-actions">
           <button type="submit" class="btn btn-primary">Ajouter</button>
           <button type="button" class="btn btn-secondary" onclick="toggleForm()">Annuler</button>
         </div>
       </form>
     </div>
+
 
     <!-- Pop-up de confirmation -->
     <div id="delete-confirmation" class="popup">

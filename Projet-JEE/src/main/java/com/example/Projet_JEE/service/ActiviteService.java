@@ -35,8 +35,8 @@ public class ActiviteService {
         return pathologieActiviteRepository.findActivitesByIdsPathologie(idsPathologie);
     }
 
-    public List<Activite> obtenirToutesLesActivites() {
-        return activiteRepository.findAll();
+    public List<Activite> obtenirToutesLesActivitesSaufDejaDansProgramme(Long idProgramme) {
+        return activiteRepository.findActivitePasDansProgramme(idProgramme);
     }
 
     public List<Activite> searchActivites(String searchTerm) {
@@ -44,6 +44,17 @@ public class ActiviteService {
             return activiteRepository.findAll();
         }
         return activiteRepository.search(searchTerm.toLowerCase());
+    }
+
+    public List<Activite> obtenirActivitesParIds(List<Long> ids) {
+        return activiteRepository.findAllByIdsActivite(ids);
+    }
+
+    public List<Activite> obtenirToutesLesActivites() {
+        List<Activite> activites = activiteRepository.findAll();
+        System.out.println("Activites tyr: ");
+        System.out.println(activites);
+        return activites;
     }
 
 }
