@@ -16,4 +16,11 @@ public interface ActiviteRepository extends JpaRepository<Activite, Integer> {
     List<Activite> searchActivites(@Param("term") String term);
     List<Activite> findByNomActiviteContainingIgnoreCase(String nomActivite);
     Activite findByIdActivite(Long idActivite);
+
+    @Query("SELECT a FROM Activite a WHERE " +
+            "LOWER(a.nomActivite) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+            "LOWER(a.discipline) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+            "LOWER(a.ville) LIKE LOWER(CONCAT('%', :searchTerm, '%'))")
+    List<Activite> search(@Param("searchTerm") String searchTerm);
+
 }

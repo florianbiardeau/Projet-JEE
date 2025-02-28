@@ -274,6 +274,17 @@ h1 {
     background-color: #e68900;
 }
 
+.note-moyenne {
+    color: #ffc107;
+    font-weight: bold;
+    margin: 8px 0;
+}
+
+.note-moyenne small {
+    color: #6c757d;
+    font-size: 0.9em;
+}
+
 /* Style du bouton "Ajouter une activité" */
 .add-programme-card {
     display: flex;

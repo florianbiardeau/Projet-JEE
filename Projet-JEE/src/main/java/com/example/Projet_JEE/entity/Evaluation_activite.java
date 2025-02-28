@@ -7,30 +7,21 @@ import jakarta.persistence.*;
 public class Evaluation_activite {
 
     @Id
+    @Column(name = "id_utilisateur")
     private Long idUtilisateur;
 
     @Id
+    @Column(name = "id_activite")
     private Long idActivite;
-
-    /*@ManyToOne
-    @JoinColumn(
-            name = "id_utilisateur",
-            referencedColumnName = "id_utilisateur",
-            nullable = false,
-            insertable = false,
-            updatable = false)
-    private Utilisateur utilisateur;
-
-    @ManyToOne
-    @JoinColumn(
-            name = "id_activite",
-            referencedColumnName = "id_activite",
-            nullable = false,
-            insertable = false,
-            updatable = false)
-    private Activite activite;
-     */
 
     private int note;
 
+    public Long getIdUtilisateur() { return idUtilisateur; }
+    public void setIdUtilisateur(Long idUtilisateur) { this.idUtilisateur = idUtilisateur; }
+
+    public Long getIdActivite() { return idActivite; }
+    public void setIdActivite(Long idActivite) { this.idActivite = idActivite; }
+
+    public int getNote() { return note; }
+    public void setNote(int note) { this.note = note; }
 }

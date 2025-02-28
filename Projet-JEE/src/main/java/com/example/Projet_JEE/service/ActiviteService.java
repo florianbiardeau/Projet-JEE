@@ -39,4 +39,11 @@ public class ActiviteService {
         return activiteRepository.findAll();
     }
 
+    public List<Activite> searchActivites(String searchTerm) {
+        if (searchTerm == null || searchTerm.trim().isEmpty()) {
+            return activiteRepository.findAll();
+        }
+        return activiteRepository.search(searchTerm.toLowerCase());
+    }
+
 }
