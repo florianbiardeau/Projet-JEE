@@ -48,43 +48,12 @@
       </div>
       <div class="mt-2">
         <a th:href="${activite.url}" target="_blank" class="btn btn-secondary">Voir détails</a>
-        <button class="btn btn-warning ms-2" th:onclick="'openRatingModal(' + ${activite.idActivite} + ')'">Noter</button>
         <!-- Bouton d'ouverture de la modal (à placer dans chaque carte d'activité) -->
         <button class="btn btn-info ms-2" th:onclick="'openAddProgrammeModal(' + ${activite.idActivite} + ')'">Ajouter au programme</button>
       </div>
     </div>
   </div>
 
-  <!-- Modal de notation -->
-  <div class="modal fade" id="ratingModal" tabindex="-1">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <form id="ratingForm">
-          <div class="modal-header">
-            <h5 class="modal-title">Noter l'activité</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-          </div>
-          <div class="modal-body">
-            <div class="mb-3">
-              <label class="form-label">Note (1-5 étoiles)</label>
-              <select class="form-select" id="note" name="note" required>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-              </select>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <input type="hidden" id="activiteId"/>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-            <button type="submit" class="btn btn-primary">Soumettre</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
 
   <!-- Modal pour ajouter l'activité à un programme -->
   <div class="modal fade" id="addProgrammeModal" tabindex="-1">

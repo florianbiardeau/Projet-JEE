@@ -37,33 +37,6 @@ public class ActiviteController {
         this.utilisateurService = utilisateurService;
     }
 
-//    // Pour l'interface utilisateur
-//    @GetMapping
-//    public String showActivites(
-//            @RequestParam(value = "search", required = false) String search,
-//            Model model
-//    ) {
-//        List<Activite> activites = activiteService.searchActivites(search);
-//        if(search != null && !search.isEmpty()) {
-//            model.addAttribute("activites", activiteService.rechercherActivites(search));
-//            model.addAttribute("search", search.trim()); // Ajouter explicitement le terme de recherche
-//        }
-//        return "activites";
-//    }
-
-//    @GetMapping("/recherche")
-//    public ResponseEntity<List<Activite>> rechercherActivites(@RequestParam String nom) {
-//        List<Activite> activites = activiteService.rechercherActivites(nom);
-//        return ResponseEntity.ok(activites);
-//    }
-//
-//
-//    @GetMapping("/api/recherche")
-//    @ResponseBody
-//    public List<Activite> rechercherActivitesApi(@RequestParam String nom) {
-//        return activiteService.rechercherActivites(nom);
-//    }
-
     @GetMapping
     public String showActivites(
             @RequestParam(value = "search", required = false) String search,
@@ -79,10 +52,6 @@ public class ActiviteController {
                 Long id = activite.getIdActivite();
                 Double moyenne = evaluationRepository.findAverageNoteByActiviteId(id);
                 int count = evaluationRepository.countByIdActivite(id);
-
-                // Ajoutez des logs pour vérifier les valeurs
-                System.out.println("Activité ID: " + id + ", Moyenne: " + moyenne + ", Nombre d'avis: " + count);
-
                 notesMoyennes.put(id, moyenne);
                 nombreAvis.put(id, count);
             });
@@ -93,9 +62,7 @@ public class ActiviteController {
 
         Long idUtilisateur = utilisateurService.idParNomUtilisateur(username);
         List<Programme_therapeutique> programmes = programmeTherapeutiqueService.obtenirProgrammesParUtilisateur(idUtilisateur);
-        System.out.println("prout");
-        System.out.println(idUtilisateur);
-        System.out.println(programmes);
+
         model.addAttribute("programmes", programmes);
 
         model.addAttribute("activites", activites != null ? activites : new ArrayList<>());
