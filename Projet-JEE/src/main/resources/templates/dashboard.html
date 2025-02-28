@@ -18,6 +18,7 @@
     <!-- Itération sur les programmes -->
     <div th:each="programme : ${programmes}" class="program-card">
       <h2 th:text="${programme.nomProgrammeTherapeutique}">Titre du Programme</h2>
+      <h3 th:text="${programme.note}">Titre du Programme</h3>
       <ul>
         <!-- Itération sur les activités du programme -->
         <li th:each="activite : ${programme.activites}" th:text="${activite.nomActivite}">Nom de l'activité</li>

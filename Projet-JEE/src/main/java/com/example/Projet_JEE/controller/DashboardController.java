@@ -18,6 +18,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.ui.Model;
 
 
@@ -48,7 +50,27 @@ public class DashboardController {
             // Récupérer la liste des programmes depuis le service
             List<Programme_therapeutique> programmes = programmeTherapeutiqueService.obtenirProgrammesParUtilisateur(idUtilisateur);
 
-            // Récupérer la liste des programmes depuis le service
+            // Calculer la moyenne des notes pour chaque programme
+            for (Programme_therapeutique programme : programmes) {
+                // Récupère la liste des activités associées au programme
+                List<Activite> activites = programme.getActivites();
+
+                // Extraire les IDs des activités et les stocker dans une liste
+                List<Long> activitesIds = activites.stream()
+                        .map(Activite::getIdActivite) // Supposons que vous avez une méthode getIdActivite()
+                        .collect(Collectors.toList());
+
+                // Récupérer les notes mise par l'utilisateur auquel appartient le programme des activités liées au programme
+                List<Integer> notesActivites = activiteService.getNotesPourActivitesEtUtilisateur(activitesIds, idUtilisateur);
+
+                // Calculer la moyenne des notes des activités
+                String moyenne = "Vous n'avez pas encore donné de note pour les activités de ce programme";
+                if (!notesActivites.isEmpty()) {
+                    moyenne = String.format("%.2f", notesActivites.stream().mapToInt(Integer::intValue).average().orElse(0));
+                }
+                programme.setNote(moyenne);
+            }
+
             List<Activite> activitesRecommandees = activiteService.obtenirActiviteParRecommandation(idUtilisateur);
 
             List<Activite> activites = activiteService.obtenirToutesLesActivites();
@@ -89,25 +111,12 @@ public class DashboardController {
         return "redirect:/dashboard";
     }
 
-
-    @GetMapping("/programme/{id}")
-    public String afficherDetailsProgramme(@PathVariable("id") Long id, Model model) {
-        Programme_therapeutique programme = programmeTherapeutiqueService.obtenirProgrammeParId(id);
-        List<Activite> activitesDisponibles = activiteService.obtenirToutesLesActivitesSaufDejaDansProgramme(id);
-
-        if (programme == null) {
-            return "redirect:/dashboard"; // Redirige si l'ID est invalide
-        }
-
-        model.addAttribute("programme", programme);
-        model.addAttribute("activitesDisponibles", activitesDisponibles);
-        return "programme"; // Correspond à programme-details.html
-    }
-
     @Transactional
     @PostMapping("/supprimer-programme")
     public String supprimerProgramme(@RequestParam Long idProgrammeTherapeutique) {
         programmeTherapeutiqueService.supprimerProgramme(idProgrammeTherapeutique);
         return "redirect:/dashboard";
     }
+
+
 }

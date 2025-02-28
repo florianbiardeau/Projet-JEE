@@ -35,6 +35,8 @@ public class Programme_therapeutique {
             inverseJoinColumns = @JoinColumn(name = "id_activite"))
     private List<Activite> activites;
 
+    private String note;
+
     public Long getIdProgrammeTherapeutique() {
         return idProgrammeTherapeutique;
     }
@@ -51,4 +53,11 @@ public class Programme_therapeutique {
         return utilisateur;
     }
 
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
 }

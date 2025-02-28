@@ -64,6 +64,10 @@ public class Programme_therapeutiqueService {
         return programmeTherapeutiqueRepository.findByUtilisateurIdUtilisateur(idUtilisateur);
     }
 
+    public Long obtenirIdUtilisateurParIdProgramme(Long idProgramme) {
+        return programmeTherapeutiqueRepository.getIdUtilisateurById(idProgramme);
+    }
+
     public Programme_therapeutique obtenirProgrammeParId(Long id) {
         return programmeTherapeutiqueRepository.findByIdProgrammeTherapeutique(id);
     }
@@ -95,6 +99,10 @@ public class Programme_therapeutiqueService {
 
     public void sauvegarder(Programme_therapeutique programme) {
         programmeTherapeutiqueRepository.save(programme);
+    }
+
+    public List<Long> obtenirActivitesParProgramme(Long programmeId) {
+        return programmeTherapeutiqueActiviteRepository.findActiviteParProgramme(programmeId);
     }
 
 }

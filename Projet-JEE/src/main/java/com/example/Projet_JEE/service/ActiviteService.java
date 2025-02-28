@@ -4,10 +4,12 @@ import com.example.Projet_JEE.entity.Activite;
 import com.example.Projet_JEE.entity.Pathologie_activite;
 import com.example.Projet_JEE.entity.Pathologie_utilisateur;
 import com.example.Projet_JEE.repository.ActiviteRepository;
+import com.example.Projet_JEE.repository.Evaluation_activiteRepository;
 import com.example.Projet_JEE.repository.Pathologie_activiteRepository;
 import com.example.Projet_JEE.repository.Pathologie_utilisateurRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -19,11 +21,13 @@ public class ActiviteService {
     private final ActiviteRepository activiteRepository;
     private final Pathologie_utilisateurRepository pathologieUtilisateurRepository;
     private final Pathologie_activiteRepository pathologieActiviteRepository;
+    private final Evaluation_activiteRepository evaluation_activiteRepository;
 
-    public ActiviteService(ActiviteRepository activiteRepository, Pathologie_utilisateurRepository pathologieUtilisateurRepository, Pathologie_activiteRepository pathologieActiviteRepository) {
+    public ActiviteService(ActiviteRepository activiteRepository, Pathologie_utilisateurRepository pathologieUtilisateurRepository, Pathologie_activiteRepository pathologieActiviteRepository, Evaluation_activiteRepository evaluation_activiteRepository) {
         this.activiteRepository = activiteRepository;
         this.pathologieUtilisateurRepository = pathologieUtilisateurRepository;
         this.pathologieActiviteRepository = pathologieActiviteRepository;
+        this.evaluation_activiteRepository = evaluation_activiteRepository;
     }
 
     public List<Activite> rechercherActivites(String searchTerm) {
@@ -56,5 +60,17 @@ public class ActiviteService {
         System.out.println(activites);
         return activites;
     }
+
+    public List<Integer> getNotesPourActivitesEtUtilisateur(List<Long> activitesIds, Long idUtilisateur) {
+        List<Integer> notes = new ArrayList<>();
+        for (Long activiteId : activitesIds) {
+            Integer note = evaluation_activiteRepository.findNoteByActiviteIdAndUtilisateurId(activiteId, idUtilisateur);
+            if (note != null) {
+                notes.add(note);
+            }
+        }
+        return notes;
+    }
+
 
 }

@@ -19,4 +19,7 @@ public interface Evaluation_activiteRepository extends JpaRepository<Evaluation_
 
     @Query("SELECT COUNT(e) FROM Evaluation_activite e WHERE e.idActivite = :idActivite")
     int countByIdActivite(@Param("idActivite") Long idActivite);
+
+    @Query("SELECT ea.note FROM Evaluation_activite ea WHERE ea.idActivite = :idActivite AND ea.idUtilisateur = :idUtilisateur")
+    Integer findNoteByActiviteIdAndUtilisateurId(Long idActivite, Long idUtilisateur);
 }
