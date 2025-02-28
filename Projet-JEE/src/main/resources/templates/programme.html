@@ -26,7 +26,15 @@
             <p><strong>Discipline :</strong> <span th:text="${activite.discipline}">Discipline</span></p>
             <p><strong>Description :</strong> <span th:text="${activite.description}">Description de l'activité</span></p>
             <p><strong>Durée :</strong> <span th:text="${activite.duree}">Durée</span> minutes</p>
-
+            <div class="note-moyenne">
+                <strong>Note moyenne :</strong>
+                <span th:if="${notesMoyennes != null && notesMoyennes.get(activite.idActivite) > 0}"
+                      th:text="${#numbers.formatDecimal(notesMoyennes.get(activite.idActivite), 1, 1)}"></span>
+                <span th:if="${notesMoyennes == null || notesMoyennes.get(activite.idActivite) == 0}">Non notée</span>
+                <small th:if="${nombreAvis != null && nombreAvis.get(activite.idActivite) > 0}">
+                    (<span th:text="${nombreAvis.get(activite.idActivite)}"></span> avis)
+                </small>
+            </div>
             <p><strong>Adresse :</strong></p>
             <p>
                 <span th:text="${activite.numeroDeRue}">Numéro</span>,
