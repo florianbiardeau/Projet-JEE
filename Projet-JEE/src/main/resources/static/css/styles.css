@@ -407,3 +407,65 @@ h1 {
     margin: 10px;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.program-card {
+    transition: all 0.3s ease;
+}
+
+.recommendation-card {
+    cursor: grab;
+    transition: all 0.3s ease;
+}
+
+.recommendation-card:active {
+    cursor: grabbing;
+}
+
+/* Ajouter ces styles CSS */
+.program-card.disabled {
+    opacity: 0.5;
+    background-color: #eee;
+    cursor: not-allowed;
+}
+
+.program-card.disabled::after {
+    content: "✖ Activité déjà présente";
+    color: red;
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    font-size: 0.8em;
+}
+
+.program-card {
+   position: relative;
+   transition: all 0.3s;
+}
+
+.program-card.disabled {
+    opacity: 0.5;
+    background-color: #f8f9fa;
+    border: 2px dashed #ff0000;
+}
+
+.program-card.disabled::after {
+    content: "Activité déjà présente";
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    color: red;
+    font-size: 0.8em;
+}

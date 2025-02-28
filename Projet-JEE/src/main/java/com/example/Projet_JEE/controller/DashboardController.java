@@ -6,18 +6,18 @@ import com.example.Projet_JEE.service.ActiviteService;
 import com.example.Projet_JEE.service.Programme_therapeutiqueService;
 import com.example.Projet_JEE.service.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.security.Principal;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.ui.Model;
@@ -118,5 +118,17 @@ public class DashboardController {
         return "redirect:/dashboard";
     }
 
+    @PostMapping("/ajouter-activite-au-programme")
+    @ResponseBody
+    public ResponseEntity<String> ajouterActiviteAuProgramme(@RequestBody Map<String, Long> data) {
+        System.out.println("ActiviteID " + data.get("activiteId"));
+        System.out.println("programmeId " + data.get("programmeId"));
+        List<Long> listActiviteId = Collections.singletonList(data.get("activiteId"));
+        Long programmeId = data.get("programmeId");
+
+        programmeTherapeutiqueService.ajouterActivitesAuProgramme(programmeId, listActiviteId);
+
+        return ResponseEntity.ok("Activité ajoutée au programme");
+    }
 
 }
