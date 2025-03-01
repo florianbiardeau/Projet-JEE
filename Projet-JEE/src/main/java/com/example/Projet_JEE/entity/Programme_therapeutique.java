@@ -4,6 +4,7 @@ package com.example.Projet_JEE.entity;
 import jakarta.persistence.*;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -15,42 +16,37 @@ public class Programme_therapeutique {
     @Column(name = "id_programme_therapeutique")
     private Long idProgrammeTherapeutique;
 
-    @Setter
     @Column(name = "nom_programme_therapeutique", nullable = false)
     private String nomProgrammeTherapeutique;
 
-    @Setter
+    private String note;
+
     @ManyToOne
-    @JoinColumn(
-            name = "id_utilisateur",
-            referencedColumnName = "id_utilisateur",
-            nullable = false)
+    @JoinColumn(name = "id_utilisateur", nullable = false)
     private Utilisateur utilisateur;
 
-    @Setter
     @ManyToMany
     @JoinTable(
             name = "programme_therapeutique_activite",
             joinColumns = @JoinColumn(name = "id_programme_therapeutique"),
-            inverseJoinColumns = @JoinColumn(name = "id_activite"))
-    private List<Activite> activites;
-
-    private String note;
+            inverseJoinColumns = @JoinColumn(name = "id_activite")
+    )
+    private List<Activite> activites = new ArrayList<>();
 
     public Long getIdProgrammeTherapeutique() {
         return idProgrammeTherapeutique;
+    }
+
+    public void setIdProgrammeTherapeutique(Long idProgrammeTherapeutique) {
+        this.idProgrammeTherapeutique = idProgrammeTherapeutique;
     }
 
     public String getNomProgrammeTherapeutique() {
         return nomProgrammeTherapeutique;
     }
 
-    public List<Activite> getActivites() {
-        return activites;
-    }
-
-    public Utilisateur getUtilisateur() {
-        return utilisateur;
+    public void setNomProgrammeTherapeutique(String nomProgrammeTherapeutique) {
+        this.nomProgrammeTherapeutique = nomProgrammeTherapeutique;
     }
 
     public String getNote() {
@@ -59,5 +55,21 @@ public class Programme_therapeutique {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public Utilisateur getUtilisateur() {
+        return utilisateur;
+    }
+
+    public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
+    }
+
+    public List<Activite> getActivites() {
+        return activites;
+    }
+
+    public void setActivites(List<Activite> activites) {
+        this.activites = activites;
     }
 }

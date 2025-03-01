@@ -6,6 +6,22 @@ import jakarta.persistence.*;
 @IdClass(Pathologie_utilisateur_Id.class)
 public class Pathologie_utilisateur {
 
+    @Id
+    @Column(name = "id_pathologie")
+    private Long idPathologie;
+
+    @Id
+    @Column(name = "id_utilisateur")
+    private Long idUtilisateur;
+
+    @ManyToOne
+    @JoinColumn(name = "id_pathologie", insertable = false, updatable = false)
+    private Pathologie pathologie;
+
+    @ManyToOne
+    @JoinColumn(name = "id_utilisateur", insertable = false, updatable = false)
+    private Utilisateur utilisateur;
+
     public Long getIdPathologie() {
         return idPathologie;
     }
@@ -21,33 +37,5 @@ public class Pathologie_utilisateur {
     public void setIdUtilisateur(Long idUtilisateur) {
         this.idUtilisateur = idUtilisateur;
     }
-
-    @Id
-    private Long idPathologie;
-
-    @Id
-    private Long idUtilisateur;
-
-    /*
-    @EmbeddedId
-    private Pathologie_utilisateur_Id idPathologieUtlisateur;
-    @ManyToOne
-    @JoinColumn(
-            name = "idPathologie",
-            referencedColumnName = "idPathologie",
-            nullable = false,
-            insertable = false,
-            updatable = false)
-    private Pathologie pathologie;
-
-    @ManyToOne
-    @JoinColumn(
-            name = "idUtilisateur",
-            referencedColumnName = "idUtilisateur",
-            nullable = false,
-            insertable = false,
-            updatable = false)
-    private Utilisateur utilisateur;
-     */
 
 }

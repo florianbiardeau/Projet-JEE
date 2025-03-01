@@ -14,24 +14,13 @@ public class Programme_therapeutique_activite {
     @Column(name = "id_activite")
     private Long idActivite;
 
-    /*@ManyToOne
-    @JoinColumn(
-            name = "id_programme_therapeutique",
-            referencedColumnName = "id_programme_therapeutique",
-            nullable = false,
-            insertable = false,
-            updatable = false)
+    @ManyToOne
+    @JoinColumn(name = "id_programme_therapeutique", insertable = false, updatable = false)
     private Programme_therapeutique programmeTherapeutique;
 
     @ManyToOne
-    @JoinColumn(
-            name = "id_activite",
-            referencedColumnName = "id_activite",
-            nullable = false,
-            insertable = false,
-            updatable = false)
+    @JoinColumn(name = "id_activite", insertable = false, updatable = false)
     private Activite activite;
-    */
 
     public Long getIdProgrammeTherapeutique() {
         return idProgrammeTherapeutique;
@@ -49,4 +38,19 @@ public class Programme_therapeutique_activite {
         this.idActivite = idActivite;
     }
 
+    public Programme_therapeutique getProgrammeTherapeutique() {
+        return programmeTherapeutique;
+    }
+
+    public void setProgrammeTherapeutique(Programme_therapeutique programmeTherapeutique) {
+        this.programmeTherapeutique = programmeTherapeutique;
+    }
+
+    public Activite getActivite() {
+        return activite;
+    }
+
+    public void setActivite(Activite activite) {
+        this.activite = activite;
+    }
 }

@@ -32,9 +32,6 @@ public class ConfigSecurite {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/register**", "/login**", "/css/**").permitAll()
-                        .requestMatchers("/api/activites/**").authenticated()
-                        .requestMatchers("/dashboard").authenticated()
-                        .requestMatchers("/activites").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form

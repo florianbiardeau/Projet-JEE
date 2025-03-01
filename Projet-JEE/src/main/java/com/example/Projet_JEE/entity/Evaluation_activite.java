@@ -14,7 +14,16 @@ public class Evaluation_activite {
     @Column(name = "id_activite")
     private Long idActivite;
 
+    @Column(nullable = false)
     private int note;
+
+    @ManyToOne
+    @JoinColumn(name = "id_activite", insertable = false, updatable = false)
+    private Activite activite;
+
+    @ManyToOne
+    @JoinColumn(name = "id_utilisateur", insertable = false, updatable = false)
+    private Utilisateur utilisateur;
 
     public Long getIdUtilisateur() { return idUtilisateur; }
     public void setIdUtilisateur(Long idUtilisateur) { this.idUtilisateur = idUtilisateur; }

@@ -13,8 +13,6 @@ public class Pathologie {
     @Column(nullable = false, unique = true)
     private String nom;
 
-    // Getters et setters
-
     public Long getIdPathologie() {
         return idPathologie;
     }

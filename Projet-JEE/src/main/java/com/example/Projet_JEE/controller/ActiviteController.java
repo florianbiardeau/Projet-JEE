@@ -58,7 +58,7 @@ public class ActiviteController {
         }
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        String username = userDetails.getUsername(); // Nom de l'utilisateur
+        String username = userDetails.getUsername();
 
         Long idUtilisateur = utilisateurService.idParNomUtilisateur(username);
         List<Programme_therapeutique> programmes = programmeTherapeutiqueService.obtenirProgrammesParUtilisateur(idUtilisateur);

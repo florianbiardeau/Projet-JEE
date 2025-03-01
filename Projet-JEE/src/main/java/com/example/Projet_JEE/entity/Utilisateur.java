@@ -3,19 +3,13 @@ package com.example.Projet_JEE.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 @Entity
-@Table(name = "utilisateur")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-public class Utilisateur implements UserDetails { // Implémentez UserDetails
+public class Utilisateur implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,8 +34,13 @@ public class Utilisateur implements UserDetails { // Implémentez UserDetails
         return Collections.emptyList();
     }
 
-    public Long getIdUtilisateur() {
-        return idUtilisateur;
+    @Override
+    public String getUsername() {
+        return nomUtilisateur;
+    }
+
+    public void setUsername(String nomUtilisateur) {
+        this.nomUtilisateur = nomUtilisateur;
     }
 
     @Override
@@ -53,13 +52,52 @@ public class Utilisateur implements UserDetails { // Implémentez UserDetails
         this.motDePasse = motDePasse;
     }
 
-    @Override
-    public String getUsername() {
+    public Long getIdUtilisateur() {
+        return idUtilisateur;
+    }
+
+    public void setIdUtilisateur(Long idUtilisateur) {
+        this.idUtilisateur = idUtilisateur;
+    }
+
+    public String getNomUtilisateur() {
         return nomUtilisateur;
     }
 
-    public void setUsername(String nomUtilisateur) {
+    public void setNomUtilisateur(String nomUtilisateur) {
         this.nomUtilisateur = nomUtilisateur;
+    }
+
+    public String getMotDePasse() {
+        return motDePasse;
+    }
+
+    public void setMotDePasse(String motDePasse) {
+        this.motDePasse = motDePasse;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public List<Programme_therapeutique> getProgrammesTherapeutiques() {
+        return programmesTherapeutiques;
+    }
+
+    public void setProgrammesTherapeutiques(List<Programme_therapeutique> programmesTherapeutiques) {
+        this.programmesTherapeutiques = programmesTherapeutiques;
     }
 
     @Override
