@@ -1,5 +1,6 @@
 package com.example.Projet_JEE.service;
 
+import com.example.Projet_JEE.entity.Programme_therapeutique;
 import com.example.Projet_JEE.entity.Utilisateur;
 import com.example.Projet_JEE.repository.UtilisateurRepository;
 import org.springframework.context.annotation.Lazy;
@@ -73,6 +74,10 @@ public class UtilisateurService implements UserDetailsService {
 
         return utilisateur;
 
+    }
+
+    public void sauvegarder(Utilisateur utilisateur) {
+        utilisateurRepository.save(utilisateur);
     }
 
 }
