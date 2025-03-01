@@ -8,6 +8,8 @@
   <meta name="_csrf_header" th:content="${_csrf.headerName}">
 </head>
 <body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
 <div class="container">
   <h1>Bienvenue sur votre tableau de bord</h1>
 
@@ -25,7 +27,7 @@
          ondrop="drop(event)"
          ondragover="allowDrop(event)">
       <h2 th:text="${programme.nomProgrammeTherapeutique}">Titre du Programme</h2>
-      <h3 th:text="${programme.note}">Titre du Programme</h3>
+      <h3 th:text="'Note : ' + ${programme.note}">Note</h3>
       <ul>
         <!-- Itération sur les activités du programme -->
         <li th:each="activite : ${programme.activites}" th:text="${activite.nomActivite}">Nom de l'activité</li>
@@ -103,6 +105,28 @@
     <div th:each="activite : ${activitesRecommandees}" class="recommendation-card" th:id="'activite-' + ${activite.idActivite}" draggable="true" ondragstart="drag(event)" ondragend="dragEnd(event)">
       <h2 th:text="${activite.nomActivite}">Nom de l'activité</h2>
       <p th:text="${activite.description}">Description de l'activité</p>
+
+      <p><strong>Discipline :</strong> <span th:text="${activite.discipline}">Discipline</span></p>
+      <p><strong>Description :</strong> <span th:text="${activite.description}">Description de l'activité</span></p>
+      <p><strong>Durée :</strong> <span th:text="${activite.duree}">Durée</span> minutes</p>
+      <p><strong>Adresse :</strong></p>
+      <p>
+        <span th:text="${activite.numeroDeRue}">Numéro</span>,
+        <span th:text="${activite.rue}">Rue</span>,<br>
+        <span th:text="${activite.ville}">Ville</span>,
+        <span th:text="${activite.pays}">Pays</span>
+      </p>
+      <div class="note-moyenne">
+        <strong>Note moyenne :</strong>
+        <span th:if="${notesMoyennes != null && notesMoyennes.get(activite.idActivite) > 0}"
+              th:text="${#numbers.formatDecimal(notesMoyennes.get(activite.idActivite), 1, 1)}">
+              </span>
+        <span th:if="${notesMoyennes == null || notesMoyennes.get(activite.idActivite) == 0}">Non notée</span>
+        <small th:if="${nombreAvis != null && nombreAvis.get(activite.idActivite) > 0}">
+          (<span th:text="${nombreAvis.get(activite.idActivite)}"></span> avis)
+        </small>
+      </div>
+
       <form th:action="@{/activite/{id}(id=${activite.idActivite})}" method="get">
         <button type="submit" class="btn btn-secondary">Voir l'activité</button>
       </form>

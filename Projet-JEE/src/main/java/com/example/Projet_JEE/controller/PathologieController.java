@@ -32,6 +32,8 @@ public class PathologieController {
         List<Pathologie> toutesPathologies = pathologieService.getAllPathologies();
         model.addAttribute("toutesPathologies", toutesPathologies);
 
+        model.addAttribute("activePage", "pathologies");
+
         return "pathologies"; // renvoie à pathologies.html
     }
 

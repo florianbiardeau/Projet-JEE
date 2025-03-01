@@ -3,7 +3,6 @@ package com.example.Projet_JEE.controller;
 import com.example.Projet_JEE.entity.Activite;
 import com.example.Projet_JEE.entity.Programme_therapeutique;
 
-import com.example.Projet_JEE.repository.Evaluation_activiteRepository;
 import com.example.Projet_JEE.service.ActiviteService;
 import com.example.Projet_JEE.service.EvaluationService;
 import com.example.Projet_JEE.service.Programme_therapeutiqueService;
@@ -25,14 +24,12 @@ public class Programme_therapeutiqueController {
 
     private Programme_therapeutiqueService programmeTherapeutiqueService;
     private ActiviteService activiteService;
-    private Evaluation_activiteRepository evaluationRepository;
     private EvaluationService evaluationService;
 
 
-    public Programme_therapeutiqueController(Programme_therapeutiqueService programmeTherapeutiqueService, ActiviteService activiteService, Evaluation_activiteRepository evaluationRepository, EvaluationService evaluationService) {
+    public Programme_therapeutiqueController(Programme_therapeutiqueService programmeTherapeutiqueService, ActiviteService activiteService, EvaluationService evaluationService) {
         this.programmeTherapeutiqueService = programmeTherapeutiqueService;
         this.activiteService = activiteService;
-        this.evaluationRepository = evaluationRepository;
         this.evaluationService = evaluationService;
     }
 
@@ -77,12 +74,10 @@ public class Programme_therapeutiqueController {
         Map<Long, Integer> nombreAvis = new HashMap<>();
         Map<Long, Integer> noteAvis = new HashMap<>();
 
-        //Integer note = evaluationRepository.findNoteByActiviteIdAndUtilisateurId(id, idUtilisateur);
-
         for (Long activiteId : activitesIds) {
-            Double moyenne = evaluationRepository.findAverageNoteByActiviteId(activiteId);
-            Integer nbAvis = evaluationRepository.countByIdActivite(activiteId);
-            Integer note = evaluationRepository.findNoteByActiviteIdAndUtilisateurId(activiteId, idUtilisateur);
+            Double moyenne = evaluationService.findAverageNoteByActiviteId(activiteId);
+            Integer nbAvis = evaluationService.countByIdActivite(activiteId);
+            Integer note = evaluationService.findNoteByActiviteIdAndUtilisateurId(activiteId, idUtilisateur);
             notesMoyennes.put(activiteId, moyenne != null ? moyenne : 0.0);
             nombreAvis.put(activiteId, nbAvis != null ? nbAvis : 0);
             noteAvis.put(activiteId, note != null ? note : 0);
@@ -107,6 +102,9 @@ public class Programme_therapeutiqueController {
         model.addAttribute("activitesDisponibles", activitesDisponibles);
         model.addAttribute("notesMoyennes", notesMoyennes);
         model.addAttribute("nombreAvis", nombreAvis);
+
+        model.addAttribute("activePage", "dashboard");
+
         return "programme"; // Correspond à programme-details.html
     }
 }

@@ -34,4 +34,16 @@ public class EvaluationService {
         evaluation.setNote(note);
         evaluationRepository.save(evaluation);
     }
+
+    public Double findAverageNoteByActiviteId(Long activiteId) {
+        return evaluationRepository.findAverageNoteByActiviteId(activiteId);
+    }
+
+    public Integer countByIdActivite(Long activiteId) {
+        return evaluationRepository.countByIdActivite(activiteId);
+    }
+
+    public Integer findNoteByActiviteIdAndUtilisateurId(Long activiteId, Long utilisateurId) {
+        return evaluationRepository.findNoteByActiviteIdAndUtilisateurId(activiteId, utilisateurId);
+    }
 }

@@ -1,14 +1,16 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
 <head>
   <title>Mes Pathologies</title>
-  <link rel="stylesheet" th:href="@{/css/styles.css}">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
   <meta th:name="_csrf" th:content="${_csrf.token}"/>
   <meta th:name="_csrf_header" th:content="${_csrf.headerName}"/>
 </head>
 <body>
-<div class="container mt-4">
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container">
   <h1>Mes Pathologies</h1>
 
   <!-- Affichage de la liste des pathologies de l'utilisateur -->

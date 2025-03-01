@@ -70,6 +70,8 @@ public class ActiviteController {
         model.addAttribute("nombreAvis", nombreAvis);
         model.addAttribute("search", search);
 
+        model.addAttribute("activePage", "activites");
+
         return "activites";
     }
 }

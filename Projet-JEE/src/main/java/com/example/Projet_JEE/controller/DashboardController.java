@@ -3,6 +3,7 @@ package com.example.Projet_JEE.controller;
 import com.example.Projet_JEE.entity.Activite;
 import com.example.Projet_JEE.entity.Programme_therapeutique;
 import com.example.Projet_JEE.service.ActiviteService;
+import com.example.Projet_JEE.service.EvaluationService;
 import com.example.Projet_JEE.service.Programme_therapeutiqueService;
 import com.example.Projet_JEE.service.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.security.Principal;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -29,11 +31,13 @@ public class DashboardController {
     private final Programme_therapeutiqueService programmeTherapeutiqueService;
     private final UtilisateurService utilisateurService;
     private final ActiviteService activiteService;
+    private final EvaluationService evaluationService;
 
-    public DashboardController(Programme_therapeutiqueService programmeTherapeutiqueService, UtilisateurService utilisateurService, ActiviteService activiteService) {
+    public DashboardController(Programme_therapeutiqueService programmeTherapeutiqueService, UtilisateurService utilisateurService, ActiviteService activiteService, EvaluationService evaluationService) {
         this.programmeTherapeutiqueService = programmeTherapeutiqueService;
         this.utilisateurService = utilisateurService;
         this.activiteService = activiteService;
+        this.evaluationService = evaluationService;
     }
 
     @GetMapping("/dashboard")
@@ -64,7 +68,7 @@ public class DashboardController {
                 List<Integer> notesActivites = activiteService.getNotesPourActivitesEtUtilisateur(activitesIds, idUtilisateur);
 
                 // Calculer la moyenne des notes des activités
-                String moyenne = "Vous n'avez pas encore donné de note pour les activités de ce programme";
+                String moyenne = "Pas de note";
                 if (!notesActivites.isEmpty()) {
                     moyenne = String.format("%.2f", notesActivites.stream().mapToInt(Integer::intValue).average().orElse(0));
                 }
@@ -72,13 +76,31 @@ public class DashboardController {
             }
 
             List<Activite> activitesRecommandees = activiteService.obtenirActiviteParRecommandation(idUtilisateur);
+            List<Long> activiteIds = activitesRecommandees.stream()
+                    .map(Activite::getIdActivite)
+                    .collect(Collectors.toList());
+
+            // Calcul des moyennes et nombre d'avis pour CHAQUE activité
+            Map<Long, Double> notesMoyennes = new HashMap<>();
+            Map<Long, Integer> nombreAvis = new HashMap<>();
+
+            for (Long activiteId : activiteIds) {
+                Double moyenne = evaluationService.findAverageNoteByActiviteId(activiteId);
+                Integer nbAvis = evaluationService.countByIdActivite(activiteId);
+                notesMoyennes.put(activiteId, moyenne != null ? moyenne : 0.0);
+                nombreAvis.put(activiteId, nbAvis != null ? nbAvis : 0);
+            }
 
             List<Activite> activites = activiteService.obtenirToutesLesActivites();
 
             // Ajouter la liste des programmes au modèle
             model.addAttribute("programmes", programmes);
             model.addAttribute("activitesRecommandees", activitesRecommandees);
+            model.addAttribute("notesMoyennes", notesMoyennes);
+            model.addAttribute("nombreAvis", nombreAvis);
             model.addAttribute("activites", activites);
+
+            model.addAttribute("activePage", "dashboard");
         }
 
         return "dashboard"; // Correspond au template dashboard.html
@@ -130,5 +152,4 @@ public class DashboardController {
 
         return ResponseEntity.ok("Activité ajoutée au programme");
     }
-
 }
