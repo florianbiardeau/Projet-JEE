@@ -36,7 +36,11 @@ public class Programme_therapeutiqueController {
     @PostMapping("/programme/{id}/ajouter-activites")
     public String ajouterActivitesAuProgramme(@PathVariable("id") Long id, @RequestParam("activitesSelectionnees") List<Long> activitesIds) {
         System.out.println("Requête reçue pour ajouter l'activité " + activitesIds + " au programme " + id);
-        programmeTherapeutiqueService.ajouterActivitesAuProgramme(id, activitesIds);
+        try {
+            programmeTherapeutiqueService.ajouterActivitesAuProgramme(id, activitesIds);
+        } catch (Exception e) {
+
+        }
         return "redirect:/programme/" + id; // Redirige vers la page du programme
     }
 

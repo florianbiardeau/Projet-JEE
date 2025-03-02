@@ -23,7 +23,6 @@
   </form>
 
   <div th:if="${activites != null}">
-    <a th:href="@{/dashboard}" class="btn btn-link">Retour au dashboard</a>
     <h2 th:if="${!activites.empty}">Résultats pour "<span th:text="${search}"></span>"</h2>
     <p th:if="${activites.empty}">Aucun résultat trouvé pour "<span th:text="${search}"></span>"</p>
 

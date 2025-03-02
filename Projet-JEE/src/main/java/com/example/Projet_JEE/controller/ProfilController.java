@@ -4,7 +4,10 @@ import com.example.Projet_JEE.entity.Pathologie;
 import com.example.Projet_JEE.entity.Utilisateur;
 import com.example.Projet_JEE.service.PathologieService;
 import com.example.Projet_JEE.service.UtilisateurService;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -78,6 +81,18 @@ public class ProfilController {
 
             // Sauvegarder
             utilisateurService.sauvegarder(utilisateur);
+
+            // 🔹 Mettre à jour l'authentification
+            Utilisateur nouveauUtilisateur = new Utilisateur();
+            nouveauUtilisateur.setNomUtilisateur(nomUtilisateur);
+            nouveauUtilisateur.setAge(age);
+            nouveauUtilisateur.setGenre(genre);
+            UserDetails userDetails = nouveauUtilisateur;
+            UsernamePasswordAuthenticationToken newAuth = new UsernamePasswordAuthenticationToken(
+                    userDetails, authentication.getCredentials(), userDetails.getAuthorities()
+            );
+
+            SecurityContextHolder.getContext().setAuthentication(newAuth); // Met à jour le contexte de sécurité
 
             redirectAttributes.addFlashAttribute("success", "Profil mis à jour avec succès !");
         } catch (Exception e) {

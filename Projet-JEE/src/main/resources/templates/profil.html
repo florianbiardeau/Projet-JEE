@@ -21,13 +21,13 @@
     <div class="card-body">
       <dl class="row">
         <dt class="col-sm-3">Nom d'utilisateur</dt>
-        <dd class="col-sm-9" th:text="${utilisateur.nomUtilisateur}">JeanDupont</dd>
+        <dd class="col-sm-9" th:text="${utilisateur.nomUtilisateur}"></dd>
 
         <dt class="col-sm-3">Âge</dt>
-        <dd class="col-sm-9" th:text="${utilisateur.age}">30</dd>
+        <dd class="col-sm-9" th:text="${utilisateur.age}"></dd>
 
         <dt class="col-sm-3">Genre</dt>
-        <dd class="col-sm-9" th:text="${utilisateur.genre}">Masculin</dd>
+        <dd class="col-sm-9" th:text="${utilisateur.genre}"></dd>
       </dl>
 
       <!-- Bouton de modification -->
@@ -36,6 +36,14 @@
       </button>
     </div>
   </div>
+
+  <div class="actions">
+    <form th:action="@{/logout}" method="post">
+      <button type="submit" class="btn btn-danger">Déconnexion</button>
+    </form>
+  </div>
+
+  <br />
 
   <!-- Section Pathologies existante -->
   <h2 class="mb-0">Mes pathologies</h2>
@@ -56,7 +64,6 @@
   <div class="mt-4">
     <!-- Bouton pour ouvrir le modal d'ajout -->
     <button class="btn btn-primary" onclick="openAddModal()">Ajouter une pathologie</button>
-    <a th:href="@{/dashboard}" class="btn btn-link">Retour au dashboard</a>
   </div>
 
   <!-- Modal pour ajouter une pathologie -->
@@ -137,12 +144,12 @@
             <div class="mb-3">
               <label class="form-label">Genre</label>
               <select class="form-select" name="genre">
-                <option th:selected="${utilisateur.genre == 'Masculin'}"
-                        value="Masculin">Masculin</option>
-                <option th:selected="${utilisateur.genre == 'Féminin'}"
-                        value="Féminin">Féminin</option>
-                <option th:selected="${utilisateur.genre == 'Autre'}"
-                        value="Autre">Autre</option>
+                <option th:selected="${utilisateur.genre == 'Homme'}"
+                        value="Homme">Homme</option>
+                <option th:selected="${utilisateur.genre == 'Femme'}"
+                        value="Femme">Femme</option>
+                <option th:selected="${utilisateur.genre == 'Ne se prononce pas'}"
+                        value="Ne se prononce pas">Ne se prononce pas</option>
               </select>
             </div>
           </div>
