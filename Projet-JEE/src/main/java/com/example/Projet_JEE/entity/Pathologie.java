@@ -2,6 +2,9 @@ package com.example.Projet_JEE.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 public class Pathologie {
 
@@ -12,6 +15,14 @@ public class Pathologie {
 
     @Column(nullable = false, unique = true)
     private String nom;
+
+    @ManyToMany
+    @JoinTable(
+            name = "pathologie_utilisateur",
+            joinColumns = @JoinColumn(name = "id_pathologie"),
+            inverseJoinColumns = @JoinColumn(name = "id_activite")
+    )
+    private List<Activite> activites = new ArrayList<>();
 
     public Long getIdPathologie() {
         return idPathologie;

@@ -2,6 +2,9 @@ package com.example.Projet_JEE.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 public class Activite {
 
@@ -42,6 +45,17 @@ public class Activite {
 
     @Column(name = "numero_de_rue", nullable = false)
     private int numeroDeRue;
+
+    @OneToMany(mappedBy = "activite")
+    private List<Evaluation_activite> evaluationsActivites;
+
+    @ManyToMany
+    @JoinTable(
+            name = "pathologie_utilisateur",
+            joinColumns = @JoinColumn(name = "id_activite"),
+            inverseJoinColumns = @JoinColumn(name = "id_pathologie")
+    )
+    private List<Pathologie> pathologies = new ArrayList<>();
 
     public Long getIdActivite() {
         return idActivite;

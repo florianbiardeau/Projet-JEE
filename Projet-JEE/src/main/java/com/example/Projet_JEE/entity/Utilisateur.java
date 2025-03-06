@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -28,6 +30,17 @@ public class Utilisateur implements UserDetails {
 
     @OneToMany(mappedBy = "utilisateur")
     private List<Programme_therapeutique> programmesTherapeutiques;
+
+    @OneToMany(mappedBy = "utilisateur")
+    private List<Evaluation_activite> evaluationsActivites;
+
+    @ManyToMany
+    @JoinTable(
+            name = "pathologie_utilisateur",
+            joinColumns = @JoinColumn(name = "id_utilisateur"),
+            inverseJoinColumns = @JoinColumn(name = "id_pathologie")
+    )
+    private List<Pathologie> pathologies = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
