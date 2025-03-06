@@ -19,7 +19,6 @@
 
   <h2>Vos programmes</h2>
   <div class="programs-container">
-    <!-- Itération sur les programmes -->
     <div th:each="programme : ${programmes}"
          class="program-card"
          th:data-programme-id="${programme.idProgrammeTherapeutique}"
@@ -29,15 +28,12 @@
       <h2 th:text="${programme.nomProgrammeTherapeutique}">Titre du Programme</h2>
       <h3 th:text="'Note : ' + ${programme.note}">Note</h3>
       <ul>
-        <!-- Itération sur les activités du programme -->
         <li th:each="activite : ${programme.activites}" th:text="${activite.nomActivite}">Nom de l'activité</li>
       </ul>
       <div class="program-actions">
-        <!-- Bouton Voir le programme -->
         <form th:action="@{/programme/{id}(id=${programme.idProgrammeTherapeutique})}" method="get">
           <button type="submit" class="btn btn-primary">Voir le programme</button>
         </form>
-        <!-- Bouton Supprimer avec une pop-up -->
         <button type="button" class="btn btn-danger" th:attr="data-id=${programme.idProgrammeTherapeutique}" onclick="confirmDelete(this)">
           Supprimer
         </button>
@@ -52,30 +48,22 @@
       </form>
     </div>
 
-
-    <!-- Formulaire caché par défaut -->
     <div id="add-program-form" class="form-popup", style="width: 450px">
       <h2>Ajouter un Programme</h2>
       <form th:action="@{/ajouter-programme}" method="post">
-        <!-- Champ pour le nom du programme -->
         <label for="nomProgramme">Nom du Programme :</label>
         <input type="text" id="nomProgramme" name="nomProgramme" required>
 
-        <!-- Sélection des activités -->
         <label>Activités disponibles :</label>
         <div class="activities-list" style="max-height: 200px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;">
           <div th:each="activite : ${activites}" style="display: flex; align-items: center; margin-bottom: 8px;">
-            <!-- Checkbox alignée à gauche -->
             <input type="checkbox" th:id="${'activite-' + activite.idActivite}"
                    th:name="activitesSelectionnees"
                    th:value="${activite.idActivite}" style="margin-right: 8px; width: 50px">
-            <!-- Activité sur la même ligne -->
             <label th:for="${'activite-' + activite.idActivite}" th:text="${activite.nomActivite}"></label>
           </div>
         </div>
 
-
-        <!-- Boutons du formulaire -->
         <div class="form-actions">
           <button type="submit" class="btn btn-primary">Ajouter</button>
           <button type="button" class="btn btn-secondary" onclick="toggleForm()">Annuler</button>
@@ -83,8 +71,6 @@
       </form>
     </div>
 
-
-    <!-- Pop-up de confirmation -->
     <div id="delete-confirmation" class="popup">
       <div class="popup-content">
         <p>Êtes-vous sûr de vouloir supprimer ce programme ?</p>
@@ -95,13 +81,10 @@
         </form>
       </div>
     </div>
-
-
   </div>
 
   <h2>Recommendations</h2>
   <div class="recommendations-container">
-    <!-- Itération sur les activités recommandées -->
     <div th:each="activite : ${activitesRecommandees}" class="recommendation-card" th:id="'activite-' + ${activite.idActivite}" draggable="true" ondragstart="drag(event)" ondragend="dragEnd(event)">
       <h2 th:text="${activite.nomActivite}">Nom de l'activité</h2>
       <p th:text="${activite.description}">Description de l'activité</p>
@@ -152,22 +135,17 @@
     document.getElementById("delete-confirmation").style.display = "none";
   }
 
-  // Fonction pour autoriser le dépôt dans un programme
   function allowDrop(ev) {
     ev.preventDefault();
   }
 
-  // Modifier les fonctions JavaScript
   let currentDragActiviteId = null;
 
-  // Modification de la fonction drag
   function drag(ev) {
-    // Stocker l'ID avec le bon type MIME
     ev.dataTransfer.setData("text/plain", ev.currentTarget.id);
     ev.currentTarget.style.opacity = "0.5";
     currentDragActiviteId = ev.currentTarget.id.replace("activite-", "");
 
-    // Griser les programmes existants (logique existante)
     document.querySelectorAll(".program-card").forEach(program => {
       const activites = (program.dataset.activites || "").split(",").filter(id => id.trim() !== "");
       if (activites.includes(currentDragActiviteId)) {
@@ -176,7 +154,6 @@
     });
   }
 
-  // Modification de la fonction drop
   function drop(ev) {
     ev.preventDefault();
     const programmeElement = ev.target.closest(".program-card");
@@ -186,17 +163,14 @@
       return;
     }
 
-    // Récupérer l'ID avec le bon type MIME
     const activiteFullId = ev.dataTransfer.getData("text/plain");
     const activiteId = activiteFullId.replace("activite-", "");
     const programmeId = programmeElement.dataset.programmeId;
 
-    // Appeler l'API
     addActiviteToProgramme(activiteId, programmeId);
   }
 
   function dragEnd(ev) {
-    // Réinitialiser tous les programmes
     document.querySelectorAll('.program-card').forEach(program => {
       program.classList.remove('disabled');
       program.ondragover = allowDrop;
@@ -215,11 +189,9 @@
       return;
     }
 
-    // Récupérer les IDs
     const activiteId = ev.dataTransfer.getData("text").replace('activite-', '');
     const programmeId = programmeElement.dataset.programmeId;
 
-    // Appeler la fonction d'ajout
     addActiviteToProgramme(activiteId, programmeId);
   }
 
@@ -231,14 +203,14 @@
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        [csrfHeader]: csrfToken // Ajouter le token CSRF dans l'en-tête
+        [csrfHeader]: csrfToken
       },
       body: JSON.stringify({ activiteId: activiteId, programmeId: programmeId })
     })
             .then(response => {
               if (response.ok) {
                 alert("Activité ajoutée au programme !");
-                location.reload(); // Recharger la page pour voir le programme mis à jour
+                location.reload();
               } else {
                 alert("Erreur lors de l'ajout de l'activité au programme.");
               }
@@ -246,6 +218,5 @@
   }
 
 </script>
-
 </body>
 </html>

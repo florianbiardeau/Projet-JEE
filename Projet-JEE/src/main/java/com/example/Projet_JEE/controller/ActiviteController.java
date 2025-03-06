@@ -6,7 +6,6 @@ import com.example.Projet_JEE.repository.Evaluation_activiteRepository;
 import com.example.Projet_JEE.service.ActiviteService;
 import com.example.Projet_JEE.service.Programme_therapeutiqueService;
 import com.example.Projet_JEE.service.UtilisateurService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,7 +17,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/activites")

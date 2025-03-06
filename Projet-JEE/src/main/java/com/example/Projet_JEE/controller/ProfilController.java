@@ -34,11 +34,9 @@ public class ProfilController {
         this.idUtilisateur = idUtilisateur;
         Utilisateur utilisateur = utilisateurService.getUtilisateurById(idUtilisateur);
 
-        // Récupérer les pathologies associées à l'utilisateur
         List<Pathologie> pathologies = pathologieService.getPathologiesForUser(idUtilisateur);
         model.addAttribute("pathologies", pathologies);
 
-        // Récupérer toutes les pathologies disponibles pour alimenter le select dans le modal "ajouter"
         List<Pathologie> toutesPathologies = pathologieService.getAllPathologies();
 
         model.addAttribute("utilisateur", utilisateur);
@@ -46,7 +44,7 @@ public class ProfilController {
 
         model.addAttribute("activePage", "profil");
 
-        return "profil"; // renvoie à profil.html
+        return "profil";
     }
 
     @PostMapping("/ajouter")
@@ -61,7 +59,6 @@ public class ProfilController {
         return "redirect:/profil";
     }
 
-    // Traitement de la modification
     @PostMapping("/modifier")
     public String updateProfil(
             @RequestParam String nomUtilisateur,
@@ -71,18 +68,14 @@ public class ProfilController {
             RedirectAttributes redirectAttributes) {
 
         try {
-            // Récupérer l'utilisateur connecté
             Utilisateur utilisateur = utilisateurService.getUtilisateurById(idUtilisateur);
 
-            // Mettre à jour les informations
             utilisateur.setNomUtilisateur(nomUtilisateur);
             utilisateur.setAge(age);
             utilisateur.setGenre(genre);
 
-            // Sauvegarder
             utilisateurService.sauvegarder(utilisateur);
 
-            // 🔹 Mettre à jour l'authentification
             Utilisateur nouveauUtilisateur = new Utilisateur();
             nouveauUtilisateur.setNomUtilisateur(nomUtilisateur);
             nouveauUtilisateur.setAge(age);
@@ -92,7 +85,7 @@ public class ProfilController {
                     userDetails, authentication.getCredentials(), userDetails.getAuthorities()
             );
 
-            SecurityContextHolder.getContext().setAuthentication(newAuth); // Met à jour le contexte de sécurité
+            SecurityContextHolder.getContext().setAuthentication(newAuth);
 
             redirectAttributes.addFlashAttribute("success", "Profil mis à jour avec succès !");
         } catch (Exception e) {

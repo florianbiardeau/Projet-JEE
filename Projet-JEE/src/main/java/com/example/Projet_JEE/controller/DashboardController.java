@@ -6,7 +6,6 @@ import com.example.Projet_JEE.service.ActiviteService;
 import com.example.Projet_JEE.service.EvaluationService;
 import com.example.Projet_JEE.service.Programme_therapeutiqueService;
 import com.example.Projet_JEE.service.UtilisateurService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +14,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.security.Principal;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -42,7 +40,6 @@ public class DashboardController {
 
     @GetMapping("/dashboard")
     public String showDashboard(Model model) {
-        // Obtenir l'authentification en cours
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
@@ -51,23 +48,17 @@ public class DashboardController {
 
             Long idUtilisateur = utilisateurService.idParNomUtilisateur(username);
 
-            // Récupérer la liste des programmes depuis le service
             List<Programme_therapeutique> programmes = programmeTherapeutiqueService.obtenirProgrammesParUtilisateur(idUtilisateur);
 
-            // Calculer la moyenne des notes pour chaque programme
             for (Programme_therapeutique programme : programmes) {
-                // Récupère la liste des activités associées au programme
                 List<Activite> activites = programme.getActivites();
 
-                // Extraire les IDs des activités et les stocker dans une liste
                 List<Long> activitesIds = activites.stream()
-                        .map(Activite::getIdActivite) // Supposons que vous avez une méthode getIdActivite()
+                        .map(Activite::getIdActivite)
                         .collect(Collectors.toList());
 
-                // Récupérer les notes mise par l'utilisateur auquel appartient le programme des activités liées au programme
                 List<Integer> notesActivites = activiteService.getNotesPourActivitesEtUtilisateur(activitesIds, idUtilisateur);
 
-                // Calculer la moyenne des notes des activités
                 String moyenne = "Pas de note";
                 if (!notesActivites.isEmpty()) {
                     moyenne = String.format("%.2f", notesActivites.stream().mapToInt(Integer::intValue).average().orElse(0));
@@ -80,7 +71,6 @@ public class DashboardController {
                     .map(Activite::getIdActivite)
                     .collect(Collectors.toList());
 
-            // Calcul des moyennes et nombre d'avis pour CHAQUE activité
             Map<Long, Double> notesMoyennes = new HashMap<>();
             Map<Long, Integer> nombreAvis = new HashMap<>();
 
@@ -93,7 +83,6 @@ public class DashboardController {
 
             List<Activite> activites = activiteService.obtenirToutesLesActivites();
 
-            // Ajouter la liste des programmes au modèle
             model.addAttribute("programmes", programmes);
             model.addAttribute("activitesRecommandees", activitesRecommandees);
             model.addAttribute("notesMoyennes", notesMoyennes);
@@ -103,7 +92,7 @@ public class DashboardController {
             model.addAttribute("activePage", "dashboard");
         }
 
-        return "dashboard"; // Correspond au template dashboard.html
+        return "dashboard";
     }
 
     @PostMapping("/ajouter-programme")
@@ -121,7 +110,6 @@ public class DashboardController {
             Long idUtilisateur = utilisateurService.idParNomUtilisateur(username);
             nouveauProgramme.setUtilisateur(utilisateurService.getUtilisateurById(idUtilisateur));
 
-            // Associer les activités sélectionnées au programme
             if (activitesSelectionnees != null && !activitesSelectionnees.isEmpty()) {
                 List<Activite> activites = activiteService.obtenirActivitesParIds(activitesSelectionnees);
                 nouveauProgramme.setActivites(activites);
@@ -143,8 +131,6 @@ public class DashboardController {
     @PostMapping("/ajouter-activite-au-programme")
     @ResponseBody
     public ResponseEntity<String> ajouterActiviteAuProgramme(@RequestBody Map<String, Long> data) {
-        System.out.println("ActiviteID " + data.get("activiteId"));
-        System.out.println("programmeId " + data.get("programmeId"));
         List<Long> listActiviteId = Collections.singletonList(data.get("activiteId"));
         Long programmeId = data.get("programmeId");
 

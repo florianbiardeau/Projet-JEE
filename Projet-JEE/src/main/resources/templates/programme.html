@@ -52,11 +52,9 @@
             </div>
 
             <div class="mt-2">
-                <a th:href="${activite.url}" target="_blank" class="btn btn-secondary">Voir détails</a>
                 <button class="btn btn-warning ms-2" th:onclick="'openRatingModal(' + ${activite.idActivite} + ')'">Noter</button>
             </div>
 
-            <!-- Bouton pour supprimer une activité -->
             <button class="btn btn-danger"
                     th:attr="onclick='ouvrirPopupSuppression(' + ${activite.idActivite} + ',' + ${programme.idProgrammeTherapeutique} + ')'" >
                 Supprimer cette activité du programme
@@ -67,7 +65,6 @@
     </ul>
 </div>
 
-<!-- Modal de notation -->
 <div class="modal fade" id="ratingModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -103,7 +100,6 @@
         <span class="close" onclick="fermerPopup()">&times;</span>
         <h2>Ajouter des activités</h2>
 
-        <!-- Liste des activités à sélectionner -->
         <form id="ajoutActivitesForm" th:action="@{/programme/{id}/ajouter-activites(id=${programme.idProgrammeTherapeutique})}" method="post">
             <div th:each="activite : ${activitesDisponibles}">
                 <input type="checkbox" name="activitesSelectionnees" th:value="${activite.idActivite}">
@@ -114,7 +110,6 @@
     </div>
 </div>
 
-<!-- Popup de confirmation de suppression -->
 <div id="popupSuppression" class="popup-container" style="display: none;">
     <div class="popup-content">
         <span class="close" onclick="fermerPopupSuppression()">&times;</span>
@@ -133,7 +128,6 @@
     document.getElementById('ratingForm').addEventListener('submit', function(e) {
         e.preventDefault();
 
-        // Récupération du token CSRF
         const csrfToken = document.querySelector('meta[name="_csrf"]')?.content;
         const csrfHeader = document.querySelector('meta[name="_csrf_header"]')?.content;
 
@@ -149,9 +143,9 @@
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                [csrfHeader]: csrfToken // Utilisation dynamique du nom du header
+                [csrfHeader]: csrfToken
             },
-            credentials: 'include', // Important pour les cookies
+            credentials: 'include',
             body: JSON.stringify({ note: parseInt(note) })
         })
             .then(response => {
@@ -179,7 +173,6 @@
 
     function openAddProgrammeModal(activityId) {
         document.getElementById('activityId').value = activityId;
-        // Réinitialiser le select si besoin
         document.getElementById('programmeSelect').selectedIndex = 0;
         $('#addProgrammeModal').modal('show');
     }
@@ -217,16 +210,14 @@
             return;
         }
 
-        // Récupération du token CSRF depuis les meta tags
         const csrfToken = document.querySelector('meta[name="_csrf"]').content;
         const csrfHeader = document.querySelector('meta[name="_csrf_header"]').content;
 
-        // Envoi AJAX pour sauvegarder la modification
         fetch("/programme/" + programmeId + "/modifier-nom", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                [csrfHeader]: csrfToken // Ajout dynamique du header CSRF
+                [csrfHeader]: csrfToken
             },
             body: JSON.stringify({nomProgramme: nouveauNom})
         })
@@ -247,13 +238,10 @@
 
     function handleEnter(event, element, programmeId) {
         if (event.key === "Enter") {
-            event.preventDefault();  // Empêche le retour à la ligne
-            element.blur();  // Déclenche l'événement `onblur` pour sauvegarder
+            event.preventDefault();
+            element.blur();
         }
     }
-
-
-
 
 </script>
 </body>

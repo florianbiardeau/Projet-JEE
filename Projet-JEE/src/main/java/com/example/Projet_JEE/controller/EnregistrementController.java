@@ -33,9 +33,6 @@ public class EnregistrementController {
             @RequestParam(required = false) String genre,
             RedirectAttributes redirectAttributes) {
 
-        // Ajouter ce log de debug
-        System.out.println("Tentative d'inscription pour : " + nomUtilisateur);
-
         if (utilisateurService.nomUtilisateurExists(nomUtilisateur)) {
             redirectAttributes.addFlashAttribute("error", "Ce nom d'utilisateur existe déjà");
             return "redirect:/register";
@@ -43,17 +40,11 @@ public class EnregistrementController {
 
         Utilisateur utilisateur = new Utilisateur();
         utilisateur.setUsername(nomUtilisateur);
-        utilisateur.setPassword(motDePasse); // Serra haché dans le service
+        utilisateur.setPassword(motDePasse);
         utilisateur.setAge(age);
         utilisateur.setGenre(genre);
 
-        // Ajouter ce log pour vérification
-        System.out.println("Avant sauvegarde - Mot de passe: " + utilisateur.getPassword());
-
         utilisateurService.creerUtilisateur(utilisateur);
-
-        // Vérifier l'ID généré
-        System.out.println("Utilisateur créé avec ID: " + utilisateur.getIdUtilisateur());
 
         redirectAttributes.addFlashAttribute("success", "Compte créé avec succès !");
         return "redirect:/login";

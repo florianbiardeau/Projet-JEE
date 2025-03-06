@@ -15,8 +15,6 @@ public interface Evaluation_activiteRepository extends JpaRepository<Evaluation_
     @Query("SELECT COALESCE(AVG(e.note), 0.0) FROM Evaluation_activite e WHERE e.idActivite = :idActivite")
     Double findAverageNoteByActiviteId(@Param("idActivite") Long idActivite);
 
-    //int countByIdActivite(Long idActivite);
-
     @Query("SELECT COUNT(e) FROM Evaluation_activite e WHERE e.idActivite = :idActivite")
     int countByIdActivite(@Param("idActivite") Long idActivite);
 

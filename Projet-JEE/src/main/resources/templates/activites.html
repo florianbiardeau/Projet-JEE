@@ -48,15 +48,12 @@
         </div>
       </div>
       <div class="mt-2">
-        <a th:href="${activite.url}" target="_blank" class="btn btn-secondary">Voir détails</a>
-        <!-- Bouton d'ouverture de la modal (à placer dans chaque carte d'activité) -->
         <button class="btn btn-info ms-2" th:onclick="'openAddProgrammeModal(' + ${activite.idActivite} + ')'">Ajouter au programme</button>
       </div>
     </div>
   </div>
 
 
-  <!-- Modal pour ajouter l'activité à un programme -->
   <div class="modal fade" id="addProgrammeModal" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -69,10 +66,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
           </div>
           <div class="modal-body">
-            <!-- Champ caché pour l'id de l'activité -->
             <input type="hidden" id="activityId" name="activitesSelectionnees" value="">
-
-            <!-- Liste déroulante pour sélectionner le programme -->
             <div class="mb-3">
               <label for="programmeSelect" class="form-label">Sélectionnez un programme</label>
               <select id="programmeSelect" class="form-select" required>
@@ -100,16 +94,13 @@
 
   function openAddProgrammeModal(activityId) {
     document.getElementById('activityId').value = activityId;
-    // Réinitialiser le select si besoin
     document.getElementById('programmeSelect').selectedIndex = 0;
     $('#addProgrammeModal').modal('show');
   }
 
-  // Gestion de la soumission du formulaire
   document.getElementById('addProgrammeForm').addEventListener('submit', function(e) {
     e.preventDefault();
 
-    // Récupérer l'id de l'activité et l'id du programme sélectionné
     const activityId = document.getElementById('activityId').value;
     const programmeId = document.getElementById('programmeSelect').value;
 
@@ -118,14 +109,11 @@
       return;
     }
 
-    // Construire l'URL du POST : /programme/{programmeId}/ajouter-activites
     const url = `/programme/${programmeId}/ajouter-activites`;
 
-    // Préparer les données (ici, on envoie une liste avec un seul id)
     const formData = new URLSearchParams();
     formData.append('activitesSelectionnees', activityId);
 
-    // Récupérer le token CSRF si nécessaire
     const csrfToken = document.querySelector('meta[name="_csrf"]')?.content;
     const csrfHeader = document.querySelector('meta[name="_csrf_header"]')?.content;
 
@@ -142,7 +130,6 @@
               if (response.ok) {
                 $('#addProgrammeModal').modal('hide');
                 alert('Activité ajoutée au programme !');
-                // Vous pouvez aussi rediriger ou rafraîchir la page si nécessaire
               } else {
                 throw new Error(`Erreur HTTP : ${response.status}`);
               }

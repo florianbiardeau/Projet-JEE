@@ -1,6 +1,5 @@
 package com.example.Projet_JEE.controller;
 
-import com.example.Projet_JEE.dto.UtilisateurDTO; // Import ajouté
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

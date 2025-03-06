@@ -6,9 +6,6 @@ import com.example.Projet_JEE.entity.Programme_therapeutique;
 import com.example.Projet_JEE.service.ActiviteService;
 import com.example.Projet_JEE.service.EvaluationService;
 import com.example.Projet_JEE.service.Programme_therapeutiqueService;
-import com.example.Projet_JEE.service.UtilisateurService;
-import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,19 +32,17 @@ public class Programme_therapeutiqueController {
 
     @PostMapping("/programme/{id}/ajouter-activites")
     public String ajouterActivitesAuProgramme(@PathVariable("id") Long id, @RequestParam("activitesSelectionnees") List<Long> activitesIds) {
-        System.out.println("Requête reçue pour ajouter l'activité " + activitesIds + " au programme " + id);
         try {
             programmeTherapeutiqueService.ajouterActivitesAuProgramme(id, activitesIds);
         } catch (Exception e) {
 
         }
-        return "redirect:/programme/" + id; // Redirige vers la page du programme
+        return "redirect:/programme/" + id;
     }
 
     @Transactional
     @PostMapping("/programme/{id}/supprimer-activite")
     public String supprimerActiviteDansProgramme(@PathVariable("id") Long id, @RequestParam("idActivite") Long idActivite) {
-        System.out.println("Requête reçue pour supprimer l'activité " + idActivite + " du programme " + id);
         programmeTherapeutiqueService.supprimerActiviteDuProgramme(id, idActivite);
         return "redirect:/programme/" + id;
     }
@@ -66,14 +61,10 @@ public class Programme_therapeutiqueController {
     public String afficherDetailsProgramme(@PathVariable("id") Long id, Model model) {
         Programme_therapeutique programme = programmeTherapeutiqueService.obtenirProgrammeParId(id);
 
-        // Récupérer l'id utilisateur
         Long idUtilisateur = programmeTherapeutiqueService.obtenirIdUtilisateurParIdProgramme(id);
-        // Récupérer toutes les activités liées au programme
         List<Long> activitesIds = programmeTherapeutiqueService.obtenirActivitesParProgramme(id);
-        // Récupérer les notes mise par l'utilisateur auquel appartient le programme des activités liées au programme
         List<Integer> notesActivites = activiteService.getNotesPourActivitesEtUtilisateur(activitesIds, idUtilisateur);
 
-        // Calcul des moyennes et nombre d'avis pour CHAQUE activité
         Map<Long, Double> notesMoyennes = new HashMap<>();
         Map<Long, Integer> nombreAvis = new HashMap<>();
         Map<Long, Integer> noteAvis = new HashMap<>();
@@ -87,7 +78,6 @@ public class Programme_therapeutiqueController {
             noteAvis.put(activiteId, note != null ? note : 0);
         }
 
-        // Calculer la moyenne des notes des activités
         String moyenne = "Vous n'avez pas encore donné de note pour les activités de ce programme";
         if (!notesActivites.isEmpty()) {
             moyenne = String.format("%.2f", notesActivites.stream().mapToInt(Integer::intValue).average().orElse(0));
@@ -96,10 +86,8 @@ public class Programme_therapeutiqueController {
         List<Activite> activitesDisponibles = activiteService.obtenirToutesLesActivitesSaufDejaDansProgramme(id);
 
         if (programme == null) {
-            return "redirect:/dashboard"; // Redirige si l'ID est invalide
+            return "redirect:/dashboard";
         }
-        System.out.println("kk");
-        System.out.println(noteAvis);
         model.addAttribute("note", noteAvis);
         model.addAttribute("programme", programme);
         model.addAttribute("moyenneNote", moyenne);
@@ -109,6 +97,6 @@ public class Programme_therapeutiqueController {
 
         model.addAttribute("activePage", "dashboard");
 
-        return "programme"; // Correspond à programme-details.html
+        return "programme";
     }
 }
