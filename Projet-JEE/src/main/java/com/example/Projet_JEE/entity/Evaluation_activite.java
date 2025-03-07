@@ -22,7 +22,7 @@ public class Evaluation_activite {
     private int note;
 
     public Evaluation_activite() {
-        this.id = new Evaluation_activite_Id(); // Initialisation explicite
+        this.id = new Evaluation_activite_Id();
     }
 
     public Evaluation_activite_Id getId() {

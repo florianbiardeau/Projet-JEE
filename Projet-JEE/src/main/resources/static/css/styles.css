@@ -219,7 +219,7 @@ h1 {
 }
 
 /* Style des cards Programmes */
-.program-card {
+.program-card, .add-programme-card {
     border: 2px solid #ccc; /* Contour de la carte */
     border-radius: 8px; /* Coins arrondis */
     padding: 15px;
@@ -406,19 +406,6 @@ h1 {
 .popup button {
     margin: 10px;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 .program-card {

@@ -156,7 +156,7 @@
             .then(response => {
                 if (response.ok) {
                     $('#ratingModal').modal('hide');
-                    alert('Note enregistrée !');
+                    //alert('Note enregistrée !');
                     window.location.reload();
                 } else if (response.status === 403) {
                     alert('Session expirée - Reconnectez-vous');
@@ -237,7 +237,7 @@
             })
             .catch(error => {
                 console.error("Erreur :", error);
-                alert("Une erreur est survenue lors de la mise à jour.");
+                //("Une erreur est survenue lors de la mise à jour.");
             });
     }
 

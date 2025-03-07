@@ -44,7 +44,7 @@ public class DashboardController {
 
         if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            String username = userDetails.getUsername(); // Nom de l'utilisateur
+            String username = userDetails.getUsername();
 
             Long idUtilisateur = utilisateurService.idParNomUtilisateur(username);
 
@@ -113,6 +113,10 @@ public class DashboardController {
             if (activitesSelectionnees != null && !activitesSelectionnees.isEmpty()) {
                 List<Activite> activites = activiteService.obtenirActivitesParIds(activitesSelectionnees);
                 nouveauProgramme.setActivites(activites);
+
+                activites.forEach(activite -> {
+                    activite.getProgrammes().add(nouveauProgramme);
+                });
             }
 
             programmeTherapeutiqueService.ajouterProgramme(nouveauProgramme);

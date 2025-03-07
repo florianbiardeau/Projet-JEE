@@ -18,14 +18,12 @@ public class Evaluation_activite_Id implements Serializable {
         this.idActivite = idActivite;
     }
 
-    // Getters/Setters
     public Long getIdUtilisateur() { return idUtilisateur; }
     public void setIdUtilisateur(Long idUtilisateur) { this.idUtilisateur = idUtilisateur; }
 
     public Long getIdActivite() { return idActivite; }
     public void setIdActivite(Long idActivite) { this.idActivite = idActivite; }
 
-    // equals() et hashCode() obligatoires
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

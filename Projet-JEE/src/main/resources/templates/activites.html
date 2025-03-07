@@ -129,7 +129,7 @@
             .then(response => {
               if (response.ok) {
                 $('#addProgrammeModal').modal('hide');
-                alert('Activité ajoutée au programme !');
+                //alert('Activité ajoutée au programme !');
               } else {
                 throw new Error(`Erreur HTTP : ${response.status}`);
               }
