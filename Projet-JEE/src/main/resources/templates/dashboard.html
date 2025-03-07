@@ -116,6 +116,33 @@
 </div>
 
 <script>
+
+  let scrollInterval = null;
+  const scrollSpeed = 20;
+  const scrollThreshold = 100;
+
+  function handleGlobalDragOver(ev) {
+    const y = ev.clientY;
+
+    if (!currentDragActiviteId) return;
+
+    const topZone = y < scrollThreshold;
+    const bottomZone = y > window.innerHeight - scrollThreshold;
+
+    if (scrollInterval) clearInterval(scrollInterval);
+
+    if (topZone) {
+      scrollInterval = setInterval(() => {
+        window.scrollBy({ top: -scrollSpeed, behavior: 'smooth' });
+      }, 50);
+    }
+    else if (bottomZone) {
+      scrollInterval = setInterval(() => {
+        window.scrollBy({ top: scrollSpeed, behavior: 'smooth' });
+      }, 50);
+    }
+  }
+
   function toggleForm() {
     var form = document.getElementById("add-program-form");
     form.style.display = (form.style.display === "block") ? "none" : "block";
@@ -148,6 +175,8 @@
         program.classList.add("disabled");
       }
     });
+
+    document.addEventListener('dragover', handleGlobalDragOver);
   }
 
   function drop(ev) {
@@ -174,6 +203,12 @@
     });
     ev.target.style.opacity = "1";
     currentDragActiviteId = null;
+
+    document.removeEventListener('dragover', handleGlobalDragOver);
+    if (scrollInterval) {
+      clearInterval(scrollInterval);
+      scrollInterval = null;
+    }
   }
 
   function drop(ev) {
