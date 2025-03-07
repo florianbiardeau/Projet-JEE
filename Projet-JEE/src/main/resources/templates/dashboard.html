@@ -109,10 +109,6 @@
           (<span th:text="${nombreAvis.get(activite.idActivite)}"></span> avis)
         </small>
       </div>
-
-      <form th:action="@{/activite/{id}(id=${activite.idActivite})}" method="get">
-        <button type="submit" class="btn btn-secondary">Voir l'activité</button>
-      </form>
     </div>
   </div>
 

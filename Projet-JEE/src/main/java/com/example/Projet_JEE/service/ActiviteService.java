@@ -3,8 +3,7 @@ package com.example.Projet_JEE.service;
 import com.example.Projet_JEE.entity.Activite;
 import com.example.Projet_JEE.repository.ActiviteRepository;
 import com.example.Projet_JEE.repository.Evaluation_activiteRepository;
-import com.example.Projet_JEE.repository.Pathologie_activiteRepository;
-import com.example.Projet_JEE.repository.Pathologie_utilisateurRepository;
+import com.example.Projet_JEE.repository.PathologieRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,25 +13,22 @@ import java.util.List;
 public class ActiviteService {
 
     private final ActiviteRepository activiteRepository;
-    private final Pathologie_utilisateurRepository pathologieUtilisateurRepository;
-    private final Pathologie_activiteRepository pathologieActiviteRepository;
     private final Evaluation_activiteRepository evaluation_activiteRepository;
+    private final PathologieRepository pathologieRepository;
 
-    public ActiviteService(ActiviteRepository activiteRepository, Pathologie_utilisateurRepository pathologieUtilisateurRepository, Pathologie_activiteRepository pathologieActiviteRepository, Evaluation_activiteRepository evaluation_activiteRepository) {
+    public ActiviteService(ActiviteRepository activiteRepository, Evaluation_activiteRepository evaluation_activiteRepository, PathologieRepository pathologieRepository) {
         this.activiteRepository = activiteRepository;
-        this.pathologieUtilisateurRepository = pathologieUtilisateurRepository;
-        this.pathologieActiviteRepository = pathologieActiviteRepository;
         this.evaluation_activiteRepository = evaluation_activiteRepository;
+        this.pathologieRepository = pathologieRepository;
     }
 
 
-    public List<Activite> obtenirActiviteParRecommandation(Long idUtilisateur) {
-        List<Long> idsPathologie = pathologieUtilisateurRepository.findPathologieByIdUtilisateur(idUtilisateur);
-        return pathologieActiviteRepository.findActivitesByIdsPathologie(idsPathologie);
+    public List<Activite> obtenirActivitesParRecommandation(Long idUtilisateur) {
+        return pathologieRepository.findActivitesBySharedPathologies(idUtilisateur);
     }
 
     public List<Activite> obtenirToutesLesActivitesSaufDejaDansProgramme(Long idProgramme) {
-        return activiteRepository.findActivitePasDansProgramme(idProgramme);
+        return activiteRepository.findActivitesPasDansProgramme(idProgramme);
     }
 
     public List<Activite> searchActivites(String searchTerm) {
@@ -63,6 +59,4 @@ public class ActiviteService {
         }
         return notes;
     }
-
-
 }

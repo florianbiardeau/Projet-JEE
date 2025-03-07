@@ -2,31 +2,27 @@ package com.example.Projet_JEE.service;
 
 import com.example.Projet_JEE.entity.Activite;
 import com.example.Projet_JEE.entity.Programme_therapeutique;
-import com.example.Projet_JEE.entity.Programme_therapeutique_activite;
 import com.example.Projet_JEE.repository.ActiviteRepository;
 import com.example.Projet_JEE.repository.Programme_therapeutiqueRepository;
-import com.example.Projet_JEE.repository.Programme_therapeutique_activiteRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class Programme_therapeutiqueService {
 
     private Programme_therapeutiqueRepository programmeTherapeutiqueRepository;
 
-    private Programme_therapeutique_activiteRepository programmeTherapeutiqueActiviteRepository;
-
     private ActiviteRepository activiteRepository;
 
     private PasswordEncoder passwordEncoder;
 
-    public Programme_therapeutiqueService(Programme_therapeutiqueRepository programmeTherapeutiqueRepository, Programme_therapeutique_activiteRepository programmeTherapeutiqueActiviteRepository, ActiviteRepository activiteRepository,
+    public Programme_therapeutiqueService(Programme_therapeutiqueRepository programmeTherapeutiqueRepository, ActiviteRepository activiteRepository,
                               PasswordEncoder passwordEncoder) {
         this.programmeTherapeutiqueRepository = programmeTherapeutiqueRepository;
-        this.programmeTherapeutiqueActiviteRepository = programmeTherapeutiqueActiviteRepository;
         this.activiteRepository = activiteRepository;
         this.passwordEncoder = passwordEncoder;
     }
@@ -65,7 +61,13 @@ public class Programme_therapeutiqueService {
     }
 
     public void supprimerActiviteDuProgramme(Long idProgramme, Long idActivite) {
-        programmeTherapeutiqueActiviteRepository.deleteByIdProgrammeTherapeutique(idProgramme, idActivite);
+        Programme_therapeutique programmeTherapeutique = programmeTherapeutiqueRepository.findByIdProgrammeTherapeutique(idProgramme);
+        Activite activite = activiteRepository.findByIdActivite(idActivite);
+        programmeTherapeutique.getActivites().remove(activite);
+        activite.getProgrammes().remove(programmeTherapeutique);
+
+        programmeTherapeutiqueRepository.save(programmeTherapeutique);
+        activiteRepository.save(activite);
     }
 
     public void sauvegarder(Programme_therapeutique programme) {
@@ -73,7 +75,8 @@ public class Programme_therapeutiqueService {
     }
 
     public List<Long> obtenirActivitesParProgramme(Long programmeId) {
-        return programmeTherapeutiqueActiviteRepository.findActiviteParProgramme(programmeId);
+        Programme_therapeutique programmeTherapeutique = programmeTherapeutiqueRepository.findByIdProgrammeTherapeutique(programmeId);
+        return programmeTherapeutique.getActivites().stream().map(Activite::getIdActivite).collect(Collectors.toList());
     }
 
 }

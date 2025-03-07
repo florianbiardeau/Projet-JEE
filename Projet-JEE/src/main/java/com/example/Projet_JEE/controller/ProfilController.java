@@ -34,7 +34,7 @@ public class ProfilController {
         this.idUtilisateur = idUtilisateur;
         Utilisateur utilisateur = utilisateurService.getUtilisateurById(idUtilisateur);
 
-        List<Pathologie> pathologies = pathologieService.getPathologiesForUser(idUtilisateur);
+        List<Pathologie> pathologies = utilisateur.getPathologies();
         model.addAttribute("pathologies", pathologies);
 
         List<Pathologie> toutesPathologies = pathologieService.getAllPathologies();

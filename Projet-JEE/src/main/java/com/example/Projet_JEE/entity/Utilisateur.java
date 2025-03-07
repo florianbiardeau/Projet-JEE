@@ -15,13 +15,12 @@ public class Utilisateur implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_utilisateur")
     private Long idUtilisateur;
 
-    @Column(name = "nom_utilisateur", nullable = false, unique = true)
+    @Column(nullable = false, unique = true)
     private String nomUtilisateur;
 
-    @Column(name = "mot_de_passe", nullable = false)
+    @Column(nullable = false)
     private String motDePasse;
 
     private Integer age;
@@ -32,13 +31,13 @@ public class Utilisateur implements UserDetails {
     private List<Programme_therapeutique> programmesTherapeutiques;
 
     @OneToMany(mappedBy = "utilisateur")
-    private List<Evaluation_activite> evaluationsActivites;
+    private List<Evaluation_activite> evaluations = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(
             name = "pathologie_utilisateur",
-            joinColumns = @JoinColumn(name = "id_utilisateur"),
-            inverseJoinColumns = @JoinColumn(name = "id_pathologie")
+            joinColumns = @JoinColumn(name = "idUtilisateur"),
+            inverseJoinColumns = @JoinColumn(name = "idPathologie")
     )
     private List<Pathologie> pathologies = new ArrayList<>();
 
@@ -65,6 +64,26 @@ public class Utilisateur implements UserDetails {
         this.motDePasse = motDePasse;
     }
 
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
     public Long getIdUtilisateur() {
         return idUtilisateur;
     }
@@ -73,20 +92,20 @@ public class Utilisateur implements UserDetails {
         this.idUtilisateur = idUtilisateur;
     }
 
-    public String getNomUtilisateur() {
-        return nomUtilisateur;
-    }
-
-    public void setNomUtilisateur(String nomUtilisateur) {
-        this.nomUtilisateur = nomUtilisateur;
-    }
-
     public String getMotDePasse() {
         return motDePasse;
     }
 
     public void setMotDePasse(String motDePasse) {
         this.motDePasse = motDePasse;
+    }
+
+    public String getNomUtilisateur() {
+        return nomUtilisateur;
+    }
+
+    public void setNomUtilisateur(String nomUtilisateur) {
+        this.nomUtilisateur = nomUtilisateur;
     }
 
     public Integer getAge() {
@@ -113,24 +132,19 @@ public class Utilisateur implements UserDetails {
         this.programmesTherapeutiques = programmesTherapeutiques;
     }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
+    public List<Evaluation_activite> getEvaluations() {
+        return evaluations;
     }
 
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
+    public void setEvaluations(List<Evaluation_activite> evaluations) {
+        this.evaluations = evaluations;
     }
 
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
+    public List<Pathologie> getPathologies() {
+        return pathologies;
     }
 
-    @Override
-    public boolean isEnabled() {
-        return true;
+    public void setPathologies(List<Pathologie> pathologies) {
+        this.pathologies = pathologies;
     }
-
 }

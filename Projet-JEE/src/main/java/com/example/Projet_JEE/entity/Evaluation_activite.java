@@ -3,34 +3,53 @@ package com.example.Projet_JEE.entity;
 import jakarta.persistence.*;
 
 @Entity
-@IdClass(Evaluation_activite_Id.class)
 public class Evaluation_activite {
 
-    @Id
-    @Column(name = "id_utilisateur")
-    private Long idUtilisateur;
+    @EmbeddedId
+    private Evaluation_activite_Id id;
 
-    @Id
-    @Column(name = "id_activite")
-    private Long idActivite;
+    @ManyToOne
+    @MapsId("idActivite")
+    @JoinColumn(name = "id_activite", nullable = false)
+    private Activite activite;
+
+    @ManyToOne
+    @MapsId("idUtilisateur")
+    @JoinColumn(name = "id_utilisateur", nullable = false)
+    private Utilisateur utilisateur;
 
     @Column(nullable = false)
     private int note;
 
-    @ManyToOne
-    @JoinColumn(name = "id_activite", insertable = false, updatable = false)
-    private Activite activite;
+    public Evaluation_activite_Id getId() {
+        return id;
+    }
 
-    @ManyToOne
-    @JoinColumn(name = "id_utilisateur", insertable = false, updatable = false)
-    private Utilisateur utilisateur;
+    public void setId(Evaluation_activite_Id id) {
+        this.id = id;
+    }
 
-    public Long getIdUtilisateur() { return idUtilisateur; }
-    public void setIdUtilisateur(Long idUtilisateur) { this.idUtilisateur = idUtilisateur; }
+    public Activite getActivite() {
+        return activite;
+    }
 
-    public Long getIdActivite() { return idActivite; }
-    public void setIdActivite(Long idActivite) { this.idActivite = idActivite; }
+    public void setActivite(Activite activite) {
+        this.activite = activite;
+    }
 
-    public int getNote() { return note; }
-    public void setNote(int note) { this.note = note; }
+    public Utilisateur getUtilisateur() {
+        return utilisateur;
+    }
+
+    public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
+    }
+
+    public int getNote() {
+        return note;
+    }
+
+    public void setNote(int note) {
+        this.note = note;
+    }
 }

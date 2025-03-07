@@ -66,7 +66,7 @@ public class DashboardController {
                 programme.setNote(moyenne);
             }
 
-            List<Activite> activitesRecommandees = activiteService.obtenirActiviteParRecommandation(idUtilisateur);
+            List<Activite> activitesRecommandees = activiteService.obtenirActivitesParRecommandation(idUtilisateur);
             List<Long> activiteIds = activitesRecommandees.stream()
                     .map(Activite::getIdActivite)
                     .collect(Collectors.toList());

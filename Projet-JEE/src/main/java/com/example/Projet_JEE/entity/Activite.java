@@ -10,10 +10,9 @@ public class Activite {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_activite")
     private Long idActivite;
 
-    @Column(name = "nom_activite", nullable = false, unique = true)
+    @Column(nullable = false, unique = true)
     private String nomActivite;
 
     @Column(nullable = false)
@@ -22,14 +21,11 @@ public class Activite {
     @Column(nullable = false)
     private String discipline;
 
-    @Column(name = "pathologie_prevention", nullable = false)
+    @Column(nullable = false)
     private String pathologiePrevention;
 
     @Column(nullable = false)
     private int duree;
-
-    @Column(nullable = false, unique = true)
-    private String url;
 
     @Column(nullable = false)
     private String pays;
@@ -37,23 +33,31 @@ public class Activite {
     @Column(nullable = false)
     private String ville;
 
-    @Column(name = "code_postal", nullable = false)
+    @Column(nullable = false)
     private String codePostal;
 
     @Column(nullable = false)
     private String rue;
 
-    @Column(name = "numero_de_rue", nullable = false)
+    @Column(nullable = false)
     private int numeroDeRue;
 
     @OneToMany(mappedBy = "activite")
-    private List<Evaluation_activite> evaluationsActivites;
+    private List<Evaluation_activite> evaluations = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(
-            name = "pathologie_utilisateur",
-            joinColumns = @JoinColumn(name = "id_activite"),
-            inverseJoinColumns = @JoinColumn(name = "id_pathologie")
+            name = "programme_therapeutique_activite",
+            joinColumns = @JoinColumn(name = "idActivite"),
+            inverseJoinColumns = @JoinColumn(name = "idProgrammeTherapeutique")
+    )
+    private List<Programme_therapeutique> programmes = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "pathologie_activite",
+            joinColumns = @JoinColumn(name = "idActivite"),
+            inverseJoinColumns = @JoinColumn(name = "idPathologie")
     )
     private List<Pathologie> pathologies = new ArrayList<>();
 
@@ -105,14 +109,6 @@ public class Activite {
         this.duree = duree;
     }
 
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
     public String getPays() {
         return pays;
     }
@@ -153,4 +149,27 @@ public class Activite {
         this.numeroDeRue = numeroDeRue;
     }
 
+    public List<Evaluation_activite> getEvaluations() {
+        return evaluations;
+    }
+
+    public void setEvaluations(List<Evaluation_activite> evaluations) {
+        this.evaluations = evaluations;
+    }
+
+    public List<Programme_therapeutique> getProgrammes() {
+        return programmes;
+    }
+
+    public void setProgrammes(List<Programme_therapeutique> programmes) {
+        this.programmes = programmes;
+    }
+
+    public List<Pathologie> getPathologies() {
+        return pathologies;
+    }
+
+    public void setPathologies(List<Pathologie> pathologies) {
+        this.pathologies = pathologies;
+    }
 }

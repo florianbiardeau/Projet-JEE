@@ -10,14 +10,14 @@ import java.util.Optional;
 
 public interface Evaluation_activiteRepository extends JpaRepository<Evaluation_activite, Evaluation_activite_Id> {
 
-    Optional<Evaluation_activite> findByIdUtilisateurAndIdActivite(Long idUtilisateur, Long idActivite);
+    Optional<Evaluation_activite> findByUtilisateurIdUtilisateurAndActiviteIdActivite(Long idUtilisateur, Long idActivite);
 
-    @Query("SELECT COALESCE(AVG(e.note), 0.0) FROM Evaluation_activite e WHERE e.idActivite = :idActivite")
+    @Query("SELECT COALESCE(AVG(e.note), 0.0) FROM Evaluation_activite e WHERE e.id.idActivite = :idActivite")
     Double findAverageNoteByActiviteId(@Param("idActivite") Long idActivite);
 
-    @Query("SELECT COUNT(e) FROM Evaluation_activite e WHERE e.idActivite = :idActivite")
+    @Query("SELECT COUNT(e) FROM Evaluation_activite e WHERE e.id.idActivite = :idActivite")
     int countByIdActivite(@Param("idActivite") Long idActivite);
 
-    @Query("SELECT ea.note FROM Evaluation_activite ea WHERE ea.idActivite = :idActivite AND ea.idUtilisateur = :idUtilisateur")
+    @Query("SELECT e.note FROM Evaluation_activite e WHERE e.id.idActivite = :idActivite AND e.id.idUtilisateur = :idUtilisateur")
     Integer findNoteByActiviteIdAndUtilisateurId(Long idActivite, Long idUtilisateur);
 }

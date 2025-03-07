@@ -1,6 +1,7 @@
 package com.example.Projet_JEE.service;
 
 import com.example.Projet_JEE.entity.Evaluation_activite;
+import com.example.Projet_JEE.repository.ActiviteRepository;
 import com.example.Projet_JEE.repository.Evaluation_activiteRepository;
 import com.example.Projet_JEE.repository.UtilisateurRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ public class EvaluationService {
 
     private final Evaluation_activiteRepository evaluationRepository;
     private final UtilisateurRepository utilisateurRepository;
+    private final ActiviteRepository activiteRepository;
 
 
     public void saveEvaluation(String username, Long activiteId, int note) {
@@ -21,13 +23,14 @@ public class EvaluationService {
                 .getIdUtilisateur();
 
         Evaluation_activite evaluation = evaluationRepository
-                .findByIdUtilisateurAndIdActivite(userId, activiteId)
+                .findByUtilisateurIdUtilisateurAndActiviteIdActivite(userId, activiteId)
                 .orElseGet(() -> {
                     Evaluation_activite newEval = new Evaluation_activite();
-                    newEval.setIdUtilisateur(userId);
-                    newEval.setIdActivite(activiteId);
+                    newEval.setUtilisateur(utilisateurRepository.findByIdUtilisateur(userId));
+                    newEval.setActivite(activiteRepository.findByIdActivite(activiteId));
                     return newEval;
-                });
+                }
+                );
 
         evaluation.setNote(note);
         evaluationRepository.save(evaluation);

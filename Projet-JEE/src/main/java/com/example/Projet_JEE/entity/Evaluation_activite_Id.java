@@ -1,8 +1,12 @@
 package com.example.Projet_JEE.entity;
 
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.EmbeddedId;
+
 import java.io.Serializable;
 import java.util.Objects;
 
+@Embeddable
 public class Evaluation_activite_Id implements Serializable {
     private Long idUtilisateur;
     private Long idActivite;

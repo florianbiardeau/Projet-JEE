@@ -13,24 +13,18 @@ public class Programme_therapeutique {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_programme_therapeutique")
     private Long idProgrammeTherapeutique;
 
-    @Column(name = "nom_programme_therapeutique", nullable = false)
+    @Column(nullable = false)
     private String nomProgrammeTherapeutique;
 
     private String note;
 
     @ManyToOne
-    @JoinColumn(name = "id_utilisateur", nullable = false)
+    @JoinColumn(name = "idUtilisateur", nullable = false)
     private Utilisateur utilisateur;
 
-    @ManyToMany
-    @JoinTable(
-            name = "programme_therapeutique_activite",
-            joinColumns = @JoinColumn(name = "id_programme_therapeutique"),
-            inverseJoinColumns = @JoinColumn(name = "id_activite")
-    )
+    @ManyToMany(mappedBy = "programmes")
     private List<Activite> activites = new ArrayList<>();
 
     public Long getIdProgrammeTherapeutique() {
