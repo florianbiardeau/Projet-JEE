@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 public class Evaluation_activite {
 
     @EmbeddedId
-    private Evaluation_activite_Id id;
+    private Evaluation_activite_Id id = new Evaluation_activite_Id();
 
     @ManyToOne
     @MapsId("idActivite")
@@ -20,6 +20,10 @@ public class Evaluation_activite {
 
     @Column(nullable = false)
     private int note;
+
+    public Evaluation_activite() {
+        this.id = new Evaluation_activite_Id(); // Initialisation explicite
+    }
 
     public Evaluation_activite_Id getId() {
         return id;

@@ -18,6 +18,7 @@ public class EvaluationService {
 
 
     public void saveEvaluation(String username, Long activiteId, int note) {
+
         Long userId = utilisateurRepository.findByNomUtilisateur(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Utilisateur non trouvé"))
                 .getIdUtilisateur();
@@ -31,8 +32,10 @@ public class EvaluationService {
                     return newEval;
                 }
                 );
-
+        System.out.println("Evaluationn :" + evaluation.getActivite().getNomActivite());
+        System.out.println("Utilisateurr :" + evaluation.getUtilisateur().getNomUtilisateur());
         evaluation.setNote(note);
+        System.out.println("notee :" + evaluation.getNote());
         evaluationRepository.save(evaluation);
     }
 

@@ -39,9 +39,22 @@ public class Programme_therapeutiqueService {
         return programmeTherapeutiqueRepository.findByIdProgrammeTherapeutique(id);
     }
 
-    public void ajouterActivitesAuProgramme(Long programmeId, List<Long> activitesIds) {
-        Programme_therapeutique programme = programmeTherapeutiqueRepository.findByIdProgrammeTherapeutique(programmeId);
+    public void ajouterActivitesAuProgramme(Long idProgramme, List<Long> activitesIds) {
+        Programme_therapeutique programme = programmeTherapeutiqueRepository.findByIdProgrammeTherapeutique(idProgramme);
 
+        List<Activite> activites = activiteRepository.findAllByIdsActivite(activitesIds);
+
+        activites.forEach(activite -> {
+            if(!programme.getActivites().contains(activite)) {
+                programme.getActivites().add(activite);
+                activite.getProgrammes().add(programme);
+            }
+        });
+
+        programmeTherapeutiqueRepository.save(programme);
+        activiteRepository.saveAll(activites);
+
+        /*
         if (programme != null) {
             List<Activite> activites = new ArrayList<>();
             for (Long activiteId : activitesIds) {
@@ -50,6 +63,8 @@ public class Programme_therapeutiqueService {
             programme.getActivites().addAll(activites);
             programmeTherapeutiqueRepository.save(programme);
         }
+
+         */
     }
 
     public void ajouterProgramme(Programme_therapeutique programmeTherapeutique) {

@@ -101,9 +101,14 @@
         <h2>Ajouter des activités</h2>
 
         <form id="ajoutActivitesForm" th:action="@{/programme/{id}/ajouter-activites(id=${programme.idProgrammeTherapeutique})}" method="post">
-            <div th:each="activite : ${activitesDisponibles}">
-                <input type="checkbox" name="activitesSelectionnees" th:value="${activite.idActivite}">
-                <label th:text="${activite.nomActivite}">Nom de l'activité</label>
+
+            <div class="activities-list" style="max-height: 200px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;">
+                <div th:each="activite : ${activitesDisponibles}" style="display: flex; align-items: center; margin-bottom: 8px;">
+                    <input type="checkbox" th:id="${'activite-' + activite.idActivite}"
+                           th:name="activitesSelectionnees"
+                           th:value="${activite.idActivite}" style="margin-right: 8px; width: 50px">
+                    <label th:for="${'activite-' + activite.idActivite}" th:text="${activite.nomActivite}"></label>
+                </div>
             </div>
             <button type="submit" class="btn btn-primary">Ajouter</button>
         </form>
